@@ -206,7 +206,7 @@ export const Layout: React.FC = () => {
             <BellOutlined className="text-xl" />
             <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </div>
-          <Dropdown overlay={userMenu} placement="bottomRight" arrow>
+          <Dropdown menu={{ items: userMenu.props.items, onClick: userMenu.props.onClick }} placement="bottomRight" arrow>
             <div className="flex items-center gap-2 cursor-pointer hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors">
               <Avatar size="small" icon={<UserOutlined />} className="bg-[#1890ff]" />
               <span className="text-sm font-medium">018566</span>
@@ -256,3 +256,4 @@ export const Layout: React.FC = () => {
     </AntLayout>
   );
 };
+export default Layout;

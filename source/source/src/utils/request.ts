@@ -1,13 +1,13 @@
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend, ResponseError } from 'umi-request';
-import { notification } from '@ht/sprite-ui';
+import { notification, message } from 'antd';
 import { redirectToLogin } from './utils';
 import {
   CommonResponseIWrapper,
   ResponseParameterPagination,
 } from '@/services/typing';
 import { errCodeMessage } from './errCodeMessage';
-import { message } from 'antd';
+// import { message } from 'antd'; // Already imported above
 
 const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
@@ -126,6 +126,13 @@ request.interceptors.response.use(async (response, options) => {
 });
 
 export default request;
+
+// Added for compatibility with api.ts
+export const globalConfig: any = {
+  headers: {}
+};
+
+export const extendOptions: any = {};
 
 export type ResultWrapper<T> = {
   code: number;

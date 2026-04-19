@@ -1,11 +1,10 @@
 import { lazy } from 'react';
-import { createBrowserRouter, RouteObject } from 'react-router-dom';
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
+import RootLayout, { MainLayoutWrapper } from '../layouts/RootLayout';
+import BlankLayout from '../pages/login/BlankLayout';
+import TabsLayout from '../components/Layout';
 
-// Layouts
-const BlankLayout = lazy(() => import('../pages/login/BlankLayout'));
-const TabsLayout = lazy(() => import('../components/Layout'));
-
-// Pages
+// Pages - lazy load
 const Login = lazy(() => import('../pages/login/Login'));
 const Welcome = lazy(() => import('../pages/welcome/Welcome'));
 const RuleSetting = lazy(() => import('../pages/rule/RuleSettings'));
@@ -23,6 +22,7 @@ const GeneralLimit = lazy(() => import('../pages/rule/GeneralLimit'));
 const EntrustInquiry = lazy(() => import('../pages/inquiry/EntrustInquiry'));
 const PendingEntrust = lazy(() => import('../pages/inquiry/PendingEntrust'));
 const Position = lazy(() => import('../pages/inquiry/Position'));
+const OfferAccessManage = lazy(() => import('../pages/inquiry/OfferAccessManage'));
 const Stocks = lazy(() => import('../pages/info/Stocks'));
 const Bonds = lazy(() => import('../pages/info/Bonds'));
 const Fund = lazy(() => import('../pages/info/Fund'));
@@ -31,137 +31,175 @@ const Options = lazy(() => import('../pages/info/Options'));
 const Index = lazy(() => import('../pages/info/Index'));
 const Buyback = lazy(() => import('../pages/info/Buyback'));
 const PreciousMetals = lazy(() => import('../pages/info/PreciousMetals'));
-const OfferAccessManage = lazy(() => import('../pages/inquiry/OfferAccessManage'));
+const RuleCreate = lazy(() => import('../pages/rule/RuleCreate'));
+const RuleEdit = lazy(() => import('../pages/rule/RuleEdit'));
+const RuleView = lazy(() => import('../pages/rule/RuleView'));
+const SingleRuleCreate = lazy(() => import('../pages/rule/SingleRuleCreate'));
+const SingleRuleEdit = lazy(() => import('../pages/rule/SingleRuleEdit'));
+const SingleRuleView = lazy(() => import('../pages/rule/SingleRuleView'));
 const NotFound = lazy(() => import('../pages/exception/404'));
 const Forbidden = lazy(() => import('../pages/exception/403'));
 
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: <BlankLayout />,
+    element: <RootLayout />,
     children: [
       {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/',
-        element: <TabsLayout />,
-        // wrappers: ['@/wrappers/LoginStatusCheckPoint', '@/wrappers/UserRole', '@/wrappers/MenuFunc','@/wrappers/UseExtSys','@/wrappers/RouteGuard'],
+        element: <BlankLayout />,
         children: [
           {
-            path: '/welcome',
-            element: <Welcome />,
+            path: 'login',
+            element: <Login />,
           },
           {
-            path: '/rule/ruleSetting',
-            element: <RuleSetting />,
-          },
-          {
-            path: '/rule/dynamicDimension',
-            element: <DynamicDimension />,
-          },
-          {
-            path: '/rule/securityPool',
-            element: <SecurityPool />,
-          },
-          {
-            path: '/rule/seatGroup',
-            element: <SeatGroup />,
-          },
-          {
-            path: '/rule/accountGroup',
-            element: <AccountGroup />,
-          },
-          {
-            path: '/affairs/ruleApproveExempt',
-            element: <RuleApproveExempt />,
-          },
-          {
-            path: '/authority/roleManage',
-            element: <RoleManage />,
-          },
-          {
-            path: '/authority/userManage',
-            element: <UserManage />,
-          },
-          {
-            path: '/affairs/processManage',
-            element: <ProcessManage />,
-          },
-          {
-            path: '/operations/riskControlAlarm',
-            element: <RiskControlAlarm />,
-          },
-          {
-            path: '/rule/futureOptionLImit',
-            element: <FutureOptionLimit />,
-          },
-          {
-            path: '/rule/generalLimit',
-            element: <GeneralLimit />,
-          },
-          {
-            path: '/inquiry/entrustInquiry',
-            element: <EntrustInquiry />,
-          },
-          {
-            path: '/inquiry/pendingEntrust',
-            element: <PendingEntrust />,
-          },
-          {
-            path: '/inquiry/position',
-            element: <Position />,
-          },
-          {
-            path: '/info/stocks',
-            element: <Stocks />,
-          },
-          {
-            path: '/info/bonds',
-            element: <Bonds />,
-          },
-          {
-            path: '/info/fund',
-            element: <Fund />,
-          },
-          {
-            path: '/info/futures',
-            element: <Futures />,
-          },
-          {
-            path: '/info/options',
-            element: <Options />,
-          },
-          {
-            path: '/info/index',
-            element: <Index />,
-          },
-          {
-            path: '/info/buyback',
-            element: <Buyback />,
-          },
-          {
-            path: '/info/preciousMetals',
-            element: <PreciousMetals />,
-          },
-          {
-            path: '/inquiry/offerAccessManage',
-            element: <OfferAccessManage />,
-          },
-          {
-            path: '/exception/404',
-            element: <NotFound />,
-          },
-          {
-            path: '/exception/403',
-            element: <Forbidden />,
-          },
-          {
-            path: '*',
-            element: <NotFound />,
+            path: '/',
+            element: <MainLayoutWrapper />,
+            children: [
+              {
+                element: <TabsLayout />,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="/welcome" replace />,
+                  },
+                  {
+                    path: 'welcome',
+                    element: <Welcome />,
+                  },
+                  {
+                    path: 'rule/ruleSetting',
+                    element: <RuleSetting />,
+                  },
+                  {
+                    path: 'rule/dynamicDimension',
+                    element: <DynamicDimension />,
+                  },
+                  {
+                    path: 'rule/securityPool',
+                    element: <SecurityPool />,
+                  },
+                  {
+                    path: 'rule/seatGroup',
+                    element: <SeatGroup />,
+                  },
+                  {
+                    path: 'rule/accountGroup',
+                    element: <AccountGroup />,
+                  },
+                  {
+                    path: 'rule/futureOptionLImit',
+                    element: <FutureOptionLimit />,
+                  },
+                  {
+                    path: 'rule/generalLimit',
+                    element: <GeneralLimit />,
+                  },
+                  {
+                    path: 'affairs/ruleApproveExempt',
+                    element: <RuleApproveExempt />,
+                  },
+                  {
+                    path: 'affairs/processManage',
+                    element: <ProcessManage />,
+                  },
+                  {
+                    path: 'authority/roleManage',
+                    element: <RoleManage />,
+                  },
+                  {
+                    path: 'authority/userManage',
+                    element: <UserManage />,
+                  },
+                  {
+                    path: 'operations/riskControlAlarm',
+                    element: <RiskControlAlarm />,
+                  },
+                  {
+                    path: 'inquiry/entrustInquiry',
+                    element: <EntrustInquiry />,
+                  },
+                  {
+                    path: 'inquiry/pendingEntrust',
+                    element: <PendingEntrust />,
+                  },
+                  {
+                    path: 'inquiry/position',
+                    element: <Position />,
+                  },
+                  {
+                    path: 'inquiry/offerAccessManage',
+                    element: <OfferAccessManage />,
+                  },
+                  {
+                    path: 'info/stocks',
+                    element: <Stocks />,
+                  },
+                  {
+                    path: 'info/bonds',
+                    element: <Bonds />,
+                  },
+                  {
+                    path: 'info/fund',
+                    element: <Fund />,
+                  },
+                  {
+                    path: 'info/futures',
+                    element: <Futures />,
+                  },
+                  {
+                    path: 'info/options',
+                    element: <Options />,
+                  },
+                  {
+                    path: 'info/index',
+                    element: <Index />,
+                  },
+                  {
+                    path: 'info/buyback',
+                    element: <Buyback />,
+                  },
+                  {
+                    path: 'info/preciousMetals',
+                    element: <PreciousMetals />,
+                  },
+                  {
+                    path: 'rule-create',
+                    element: <RuleCreate />,
+                  },
+                  {
+                    path: 'rule-edit/:id',
+                    element: <RuleEdit />,
+                  },
+                  {
+                    path: 'rule-view/:id',
+                    element: <RuleView />,
+                  },
+                  {
+                    path: 'single-rule-create',
+                    element: <SingleRuleCreate />,
+                  },
+                  {
+                    path: 'single-rule-edit/:id',
+                    element: <SingleRuleEdit />,
+                  },
+                  {
+                    path: 'single-rule-view/:id',
+                    element: <SingleRuleView />,
+                  },
+                ],
+              },
+            ],
           },
         ],
+      },
+      {
+        path: '/exception/403',
+        element: <Forbidden />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },
