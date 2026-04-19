@@ -3,7 +3,6 @@
  * 解决环境中缺失 umi-request 依赖的问题
  */
 import { notification, message } from 'antd';
-import { redirectToLogin } from './utils';
 import {
   CommonResponseIWrapper,
   ResponseParameterPagination,
@@ -66,11 +65,15 @@ class RequestInstance {
   private responseInterceptors: InterceptorResponse[] = [];
 
   constructor(options: RequestOptions = {}) {
-    this.options = options;
+    this.options = { ...options, headers: options.headers || {} };
   }
 
   async request(url: string, options: RequestOptions = {}) {
-    const mergedOptions = { ...this.options, ...options, headers: { ...this.options.headers, ...options.headers } };
+    const mergedOptions = { 
+      ...this.options, 
+      ...options, 
+      headers: { ...this.options.headers, ...options.headers } 
+    };
     let currentUrl = url;
     let currentOptions = mergedOptions;
 
@@ -116,16 +119,28 @@ class RequestInstance {
         finalResponse = await interceptor(finalResponse, currentOptions);
       }
 
+      // 尝试解析数据（无论成功失败，因为报错信息可能在JSON里）
+      let responseData: any = null;
+      const contentType = finalResponse.headers.get('Content-Type');
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          const clonedForData = finalResponse.clone();
+          responseData = await clonedForData.json();
+        } catch (e) {
+          console.warn('解析JSON失败', e);
+        }
+      }
+
       if (!finalResponse.ok) {
         const errorText = codeMessage[finalResponse.status] || finalResponse.statusText;
-        const error = new ResponseError(finalResponse, errorText);
+        const error = new ResponseError(finalResponse, errorText, responseData);
         if (currentOptions.errorHandler) {
           return await currentOptions.errorHandler(error);
         }
         throw error;
       }
 
-      return await finalResponse.json();
+      return responseData || await finalResponse.text();
     } catch (err: any) {
       if (err.name === 'AbortError') {
         const timeoutError = new Error('请求超时') as any;
@@ -150,7 +165,7 @@ const errorHandler = async (error: any): Promise<never> => {
       message: `请求错误 ${status}: ${url}`,
       description: errorText,
     });
-  } else {
+  } else if (!error.name || error.name !== 'ResponseError') {
     errorText = '您的网络发生异常，无法连接服务器';
     notification.error({
       description: errorText,
@@ -171,7 +186,6 @@ const instance = new RequestInstance({
 // 模拟 umi-request 的 extend 方法
 export const extend = (options: RequestOptions) => {
   const newInstance = new RequestInstance({ ...instance.options, ...options });
-  // 继承拦截器
   (newInstance as any).requestInterceptors = [...(instance as any).requestInterceptors];
   (newInstance as any).responseInterceptors = [...(instance as any).responseInterceptors];
   
@@ -191,35 +205,41 @@ requestFn.interceptors.request.use((url, options) => {
 });
 
 requestFn.interceptors.response.use(async (response, options) => {
-  const clonedResponse = response.clone();
-  const data = await clonedResponse.json();
-  const url = response.url;
-  const isAegis = url.includes('/rmp/aegis/api');
+  // 只在成功且为JSON时处理业务错误码
+  if (response.ok) {
+    const contentType = response.headers.get('Content-Type');
+    if (contentType && contentType.includes('application/json')) {
+      try {
+        const clonedResponse = response.clone();
+        const data = await clonedResponse.json();
+        const url = response.url;
+        const isAegis = url.includes('/rmp/aegis/api');
 
-  if (isAegis) {
-    if (data && data.errorId !== 0 && data.errorId !== 145003 && !('faultList' in (data.data || {}))) {
-      const messageStr = errCodeMessage(data.errorId, data.errorMessage);
-      message.error(messageStr);
+        if (isAegis) {
+          if (data && data.errorId !== 0 && data.errorId !== 145003 && !('faultList' in (data.data || {}))) {
+            const messageStr = errCodeMessage(data.errorId, data.errorMessage);
+            message.error(messageStr);
+          }
+        } else if (data && data.code !== 0 && data.code !== 145003 && !('faultList' in (data.data || {}))) {
+          const messageStr = errCodeMessage(data.code, data.message);
+          message.error(messageStr);
+        }
+      } catch (e) {
+        // 忽略解析错误
+      }
     }
-  } else if (data && data.code !== 0 && data.code !== 145003 && !('faultList' in (data.data || {}))) {
-    const messageStr = errCodeMessage(data.code, data.message);
-    message.error(messageStr);
   }
-
   return response;
 });
 
 export default requestFn;
 
-// Added for compatibility with api.ts
-export const globalConfig: any = {
-  headers: {}
-};
-
+export const globalConfig: any = { headers: {} };
 export const extendOptions: any = (options: any) => {
-  // 模拟 extendOptions 行为，更新全局配置
   if (options.headers) {
-    Object.assign(instance.options.headers || {}, options.headers);
+    instance.options.headers = { ...instance.options.headers, ...options.headers };
+    // 同步更新 globalConfig 以兼容 api.ts
+    globalConfig.headers = { ...globalConfig.headers, ...options.headers };
   }
 };
 
@@ -229,13 +249,15 @@ export type ResultWrapper<T> = {
   data: T;
 };
 
-// 字段转换函数（全量）
+// 字段转换函数
 export const parseRequest = <T, S = T>(
   requestPromise: Promise<any>,
   parseFn?: (prev: T) => S
 ): Promise<CommonResponseIWrapper<S>> =>
   requestPromise.then(
     (res) => {
+      // 兼容返回字符串的情况
+      if (typeof res === 'string') return { code: -1, message: res, data: null } as any;
       const { data, code, errorId, message: msg, errorMessage } = res;
       return {
         code: errorId ?? code,
@@ -243,15 +265,22 @@ export const parseRequest = <T, S = T>(
         data: parseFn && data ? parseFn(data) : data,
       } as CommonResponseIWrapper<S>;
     }
-  );
+  ).catch(err => {
+    // 统一处理请求异常，避免业务代码崩溃
+    return {
+      code: err.response?.status || -1,
+      message: err.message || '请求异常',
+      data: null
+    } as any;
+  });
 
-// 字段转换函数（分页）
 export const parseRequestByPage = <T, S = T>(
   requestPromise: Promise<any>,
   parseFn?: (prev: T) => S
 ): Promise<CommonResponseIWrapper<{ resultList: S[] } & ResponseParameterPagination>> =>
   requestPromise.then(
     (res) => {
+      if (typeof res === 'string') return { code: -1, message: res, data: null } as any;
       const { data, code, errorId, message: msg, errorMessage } = res;
       return {
         code: errorId ?? code,
@@ -264,4 +293,10 @@ export const parseRequestByPage = <T, S = T>(
         },
       } as CommonResponseIWrapper<{ resultList: S[] } & ResponseParameterPagination>;
     }
-  );
+  ).catch(err => {
+    return {
+      code: err.response?.status || -1,
+      message: err.message || '请求异常',
+      data: { resultList: [], pageId: 1, pageSize: 10, totalSize: 0 }
+    } as any;
+  });

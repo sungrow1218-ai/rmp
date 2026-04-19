@@ -4,15 +4,16 @@ import {
   UserConfig,
   PluginOption,
   Plugin,
+  loadEnv,
 } from "vite";
 import { join } from "path";
 import react from "@vitejs/plugin-react";
 import ViteRestart from "vite-plugin-restart";
 
-export default defineConfig(async ({ mode, command }) => {
-  const isPreview = mode === "preview";
+export default defineConfig(({ mode, command }) => {
   const root = __dirname;
-
+  const env = loadEnv(mode, root);
+  const isPreview = mode === "preview";
   const entry = "App.tsx";
 
   const plugins: PluginOption[] = [
@@ -50,12 +51,12 @@ export default defineConfig(async ({ mode, command }) => {
     server: {
       proxy: {
         '/rmp/api': {
-          target: 'https://portal-eam-sit.newone.com.cn', // 监控SIT
+          target: env.VITE_PROXY_API_TARGET || 'http://10.102.82.119:1080',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/rmp\/api/, ''),
         },
         '/rmp/aegis/api': {
-          target: 'https://portal-eam-sit.newone.com.cn', // 监控SIT
+          target: env.VITE_PROXY_AEGIS_TARGET || 'http://10.102.82.119:11084',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/rmp\/aegis\/api/, ''),
         },

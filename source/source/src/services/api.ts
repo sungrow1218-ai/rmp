@@ -120,6 +120,7 @@ const requestInterceptor = (config: any) => {
 
   // 合并headers：全局headers优先，然后config.headers
   const headers = {
+    'Content-Type': 'application/json',
     ...globalHeaders,
     ...config.headers,
   };
@@ -137,7 +138,19 @@ const responseInterceptor = async (response: Response) => {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const data = await response.json();
+  let data: any = {};
+  const contentType = response.headers.get('Content-Type');
+  if (contentType && contentType.includes('application/json')) {
+    try {
+      data = await response.json();
+    } catch (e) {
+      console.warn('解析响应JSON失败:', e);
+    }
+  } else {
+    const text = await response.text();
+    console.warn('收到非JSON响应:', text);
+    throw new Error(`服务器返回非JSON格式数据: ${text.substring(0, 100)}`);
+  }
 
   console.log('🔍 [responseInterceptor] 原始响应数据:', data);
   console.log('🔍 [responseInterceptor] 响应URL:', response.url);
@@ -156,7 +169,11 @@ const responseInterceptor = async (response: Response) => {
       data: data.data
     });
 
-    if (data.errorId !== 0 && data.errorId !== 145003) {
+    if (data.errorId === undefined) {
+      console.warn('接口返回数据格式异常 (无errorId):', data);
+    }
+
+    if (data.errorId !== undefined && data.errorId !== 0 && data.errorId !== 145003) {
       throw new Error(data.errorMessage || '请求失败');
     }
 
@@ -183,7 +200,11 @@ const responseInterceptor = async (response: Response) => {
       data: data.data
     });
 
-    if (data.code !== 0 && data.code !== 145003) {
+    if (data.code === undefined) {
+      console.warn('接口返回数据格式异常 (无code):', data);
+    }
+
+    if (data.code !== undefined && data.code !== 0 && data.code !== 145003) {
       throw new Error(data.message || '请求失败');
     }
 
