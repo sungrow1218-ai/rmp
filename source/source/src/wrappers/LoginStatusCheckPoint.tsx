@@ -80,6 +80,10 @@ const LoginStatusCheckPoint: React.FC<LoginStatusCheckPointProps> = ({ children 
     return null;
   }
 
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
   if (!isEip() && validateStatus !== ValidateStatus.SUCCESS) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-gray-50">

@@ -1,5 +1,7 @@
-/** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import { extend, ResponseError } from 'umi-request';
+/** 
+ * Request 网络请求工具 - 采用原生 Fetch 实现以替换 umi-request
+ * 解决环境中缺失 umi-request 依赖的问题
+ */
 import { notification, message } from 'antd';
 import { redirectToLogin } from './utils';
 import {
@@ -7,7 +9,6 @@ import {
   ResponseParameterPagination,
 } from '@/services/typing';
 import { errCodeMessage } from './errCodeMessage';
-// import { message } from 'antd'; // Already imported above
 
 const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
@@ -27,23 +28,121 @@ const codeMessage: Record<number, string> = {
   504: '网关超时。',
 };
 
-enum CustomCode {
-  NO_AUTH = 30000,
-  TOKEN_EXPIRED = 90005,
+// 模拟 ResponseError
+export class ResponseError extends Error {
+  response: Response;
+  data: any;
+  constructor(response: Response, text: string, data?: any) {
+    super(text);
+    this.name = 'ResponseError';
+    this.response = response;
+    this.data = data;
+  }
 }
 
-const customCodeMessage: Record<number, string> = {
-  [CustomCode.NO_AUTH]: '无操作权限',
-  [CustomCode.TOKEN_EXPIRED]: 'token过期，请重新登录',
-};
+interface RequestOptions extends RequestInit {
+  prefix?: string;
+  timeout?: number;
+  errorHandler?: (error: ResponseError) => Promise<never>;
+  params?: any;
+  data?: any;
+  getResponse?: boolean;
+}
+
+type InterceptorRequest = (url: string, options: RequestOptions) => { url: string; options: RequestOptions };
+type InterceptorResponse = (response: Response, options: RequestOptions) => Response | Promise<Response>;
+
+class RequestInstance {
+  options: RequestOptions;
+  interceptors = {
+    request: {
+      use: (fn: InterceptorRequest) => { this.requestInterceptors.push(fn); }
+    },
+    response: {
+      use: (fn: InterceptorResponse) => { this.responseInterceptors.push(fn); }
+    }
+  };
+  private requestInterceptors: InterceptorRequest[] = [];
+  private responseInterceptors: InterceptorResponse[] = [];
+
+  constructor(options: RequestOptions = {}) {
+    this.options = options;
+  }
+
+  async request(url: string, options: RequestOptions = {}) {
+    const mergedOptions = { ...this.options, ...options, headers: { ...this.options.headers, ...options.headers } };
+    let currentUrl = url;
+    let currentOptions = mergedOptions;
+
+    // 前缀处理
+    if (currentOptions.prefix && !currentUrl.startsWith('http')) {
+      currentUrl = `${currentOptions.prefix}${currentUrl}`;
+    }
+
+    // 参数处理 (Query Params)
+    if (currentOptions.params) {
+      const query = new URLSearchParams(currentOptions.params).toString();
+      currentUrl = currentUrl.includes('?') ? `${currentUrl}&${query}` : `${currentUrl}?${query}`;
+    }
+
+    // Body处理
+    if (currentOptions.data && !currentOptions.body) {
+      currentOptions.body = JSON.stringify(currentOptions.data);
+      if (!currentOptions.headers['Content-Type']) {
+        (currentOptions.headers as any)['Content-Type'] = 'application/json';
+      }
+    }
+
+    // 执行请求拦截器
+    for (const interceptor of this.requestInterceptors) {
+      const res = interceptor(currentUrl, currentOptions);
+      currentUrl = res.url;
+      currentOptions = res.options;
+    }
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), currentOptions.timeout || 60000);
+
+      const response = await fetch(currentUrl, {
+        ...currentOptions,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      // 执行响应拦截器
+      let finalResponse = response;
+      for (const interceptor of this.responseInterceptors) {
+        finalResponse = await interceptor(finalResponse, currentOptions);
+      }
+
+      if (!finalResponse.ok) {
+        const errorText = codeMessage[finalResponse.status] || finalResponse.statusText;
+        const error = new ResponseError(finalResponse, errorText);
+        if (currentOptions.errorHandler) {
+          return await currentOptions.errorHandler(error);
+        }
+        throw error;
+      }
+
+      return await finalResponse.json();
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        const timeoutError = new Error('请求超时') as any;
+        timeoutError.name = 'TimeoutError';
+        throw timeoutError;
+      }
+      throw err;
+    }
+  }
+}
 
 /** 异常处理程序 */
-const errorHandler = async (error: ResponseError): Promise<never> => {
+const errorHandler = async (error: any): Promise<never> => {
   const { response } = error;
   let errorText = error.message;
 
   if (response && response.status) {
-    // This part handles HTTP errors (4xx, 5xx)
     errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
 
@@ -51,8 +150,7 @@ const errorHandler = async (error: ResponseError): Promise<never> => {
       message: `请求错误 ${status}: ${url}`,
       description: errorText,
     });
-  } else if (!response) {
-    // This part handles network errors where there's no response
+  } else {
     errorText = '您的网络发生异常，无法连接服务器';
     notification.error({
       description: errorText,
@@ -60,79 +158,70 @@ const errorHandler = async (error: ResponseError): Promise<never> => {
     });
   }
 
-  // Create a new, render-safe Error object to throw.
-  const e = new Error(errorText);
-  e.name = error.name; // Preserve the name ('ResponseError' etc.)
-  (e as any).data = error.data; // Preserve data
-  (e as any).response = error.response; // Preserve the original response
-
-  throw e;
+  throw error;
 };
 
-const timeout = 3 * 60 * 1000;
-/** 配置request请求时的默认参数 */
-const request = extend({
-  errorHandler, // 默认错误处理
-  credentials: 'include', // 默认请求是否带上cookie
-  timeout,
+const instance = new RequestInstance({
   prefix: '/rmp',
+  timeout: 3 * 60 * 1000,
+  errorHandler,
+  credentials: 'include',
 });
 
-// 添加请求拦截器用于调试
-request.interceptors.request.use((url, options) => {
-  console.log('🚀 发送请求:', {
-    url,
-    method: options.method,
-    data: options.data,
-    timestamp: new Date().toISOString()
-  });
+// 模拟 umi-request 的 extend 方法
+export const extend = (options: RequestOptions) => {
+  const newInstance = new RequestInstance({ ...instance.options, ...options });
+  // 继承拦截器
+  (newInstance as any).requestInterceptors = [...(instance as any).requestInterceptors];
+  (newInstance as any).responseInterceptors = [...(instance as any).responseInterceptors];
+  
+  const requestFn = (url: string, opts: RequestOptions) => newInstance.request(url, opts);
+  requestFn.interceptors = newInstance.interceptors;
+  return requestFn;
+};
+
+// 导出默认 request
+const requestFn = (url: string, opts: RequestOptions) => instance.request(url, opts);
+requestFn.interceptors = instance.interceptors;
+
+// 添加默认拦截器
+requestFn.interceptors.request.use((url, options) => {
+  console.log('🚀 发送请求:', { url, method: options.method, data: options.data || options.body });
   return { url, options };
 });
 
-
-// response拦截器, 处理response
-request.interceptors.response.use(async (response, options) => {
-  const data = await response.clone().json();
-
-  const { url } = response;
+requestFn.interceptors.response.use(async (response, options) => {
+  const clonedResponse = response.clone();
+  const data = await clonedResponse.json();
+  const url = response.url;
   const isAegis = url.includes('/rmp/aegis/api');
+
   if (isAegis) {
-    if (
-      data &&
-      data.errorId !== 0 &&
-      data.errorId !== 145003 &&
-      !('faultList' in (data.data || {}))
-    ) {
-      const messageStr = errCodeMessage(
-        isAegis ? data.errorId : data.code,
-        isAegis ? data.errorMessage : data.message
-      );
+    if (data && data.errorId !== 0 && data.errorId !== 145003 && !('faultList' in (data.data || {}))) {
+      const messageStr = errCodeMessage(data.errorId, data.errorMessage);
       message.error(messageStr);
     }
-  } else if (
-    data &&
-    data.code !== 0 &&
-    data.code !== 145003 &&
-    !('faultList' in (data.data || {}))
-  ) {
-    const messageStr = errCodeMessage(
-      isAegis ? data.errorId : data.code,
-      isAegis ? data.errorMessage : data.message
-    );
+  } else if (data && data.code !== 0 && data.code !== 145003 && !('faultList' in (data.data || {}))) {
+    const messageStr = errCodeMessage(data.code, data.message);
     message.error(messageStr);
   }
 
   return response;
 });
 
-export default request;
+export default requestFn;
 
 // Added for compatibility with api.ts
 export const globalConfig: any = {
   headers: {}
 };
 
-export const extendOptions: any = {};
+export const extendOptions: any = (options: any) => {
+  // 模拟 extendOptions 行为，更新全局配置
+  if (options.headers) {
+    Object.assign(instance.options.headers || {}, options.headers);
+  }
+};
 
 export type ResultWrapper<T> = {
   code: number;
@@ -140,68 +229,39 @@ export type ResultWrapper<T> = {
   data: T;
 };
 
-export type ListData<T> = {
-  /**
-   * @description 列表数据
-   */
-  list: T[];
-
-  /**
-   * @description 当前是第几页
-   */
-  current: number;
-
-  /**
-   * @description 分页大小
-   */
-  pageSize: number;
-
-  /**
-   * @description 记录条数
-   */
-  total: number;
-
-  /**
-   * @description 页数
-   */
-  pages: number;
-};
 // 字段转换函数（全量）
 export const parseRequest = <T, S = T>(
-  requestPromise: Promise<CommonResponseIWrapper<T>>,
+  requestPromise: Promise<any>,
   parseFn?: (prev: T) => S
 ): Promise<CommonResponseIWrapper<S>> =>
   requestPromise.then(
-    ({ data, code, errorId, message, errorMessage }) =>
-      ({
+    (res) => {
+      const { data, code, errorId, message: msg, errorMessage } = res;
+      return {
         code: errorId ?? code,
-        message: errorMessage || message,
+        message: errorMessage || msg,
         data: parseFn && data ? parseFn(data) : data,
-      } as CommonResponseIWrapper<S>)
+      } as CommonResponseIWrapper<S>;
+    }
   );
 
 // 字段转换函数（分页）
 export const parseRequestByPage = <T, S = T>(
-  requestPromise: Promise<
-    CommonResponseIWrapper<{ resultList: T[] } & ResponseParameterPagination>
-  >,
+  requestPromise: Promise<any>,
   parseFn?: (prev: T) => S
-): Promise<
-  CommonResponseIWrapper<{ resultList: S[] } & ResponseParameterPagination>
-> =>
+): Promise<CommonResponseIWrapper<{ resultList: S[] } & ResponseParameterPagination>> =>
   requestPromise.then(
-    ({ data, code, errorId, message, errorMessage }) =>
-      ({
+    (res) => {
+      const { data, code, errorId, message: msg, errorMessage } = res;
+      return {
         code: errorId ?? code,
-        message: errorMessage || message,
+        message: errorMessage || msg,
         data: {
           ...(data || {}),
-          resultList: (data?.resultList || []).map((i) =>
+          resultList: (data?.resultList || []).map((i: any) =>
             parseFn ? parseFn(i) : i
           ),
         },
-      } as CommonResponseIWrapper<
-        { resultList: S[] } & ResponseParameterPagination
-      >
-    )
+      } as CommonResponseIWrapper<{ resultList: S[] } & ResponseParameterPagination>;
+    }
   );

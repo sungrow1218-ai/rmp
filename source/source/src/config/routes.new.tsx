@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
+import { createHashRouter, Navigate, type RouteObject } from 'react-router-dom';
 import RootLayout, { MainLayoutWrapper } from '../layouts/RootLayout';
 import BlankLayout from '../pages/login/BlankLayout';
 import TabsLayout from '../components/Layout';
@@ -205,6 +205,6 @@ export const routes: RouteObject[] = [
   },
 ];
 
-const router = createBrowserRouter(routes);
+const router = createHashRouter(routes);
 
 export default router;
