@@ -1,4 +1,4 @@
-export const erressage = {
+export const errorMessage = {
   // 1000xx 基础组件异常
   100000: '数据库执行失败',
   100001: '数据库执行失败',
@@ -109,11 +109,13 @@ export const erressage = {
   90005: '权限异常',
 };
 
-type CodeType = keyof typeof erressage;
-export const errCodeMessage = (code: CodeType, message?: string) => {
-  const codeInfo = erressage[code];
+type CodeType = keyof typeof errorMessage;
+export const errCodeMessage = (code: CodeType, message?: unknown) => {
+  const codeInfo = errorMessage[code];
+  const messageStr = typeof message === 'string' ? message : '';
+
   if (codeInfo) {
-    return message ? `${codeInfo}: ${message}` : `${codeInfo}`;
+    return messageStr ? `${codeInfo}: ${messageStr}` : codeInfo;
   }
-  return message ? message : '未知错误';
+  return messageStr ? messageStr : '未知错误';
 };

@@ -50,12 +50,12 @@ export default defineConfig(async ({ mode, command }) => {
     server: {
       proxy: {
         '/rmp/api': {
-          target: 'http://10.102.82.119:1080', // 监控SIT
+          target: 'https://portal-eam-sit.newone.com.cn', // 监控SIT
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/rmp\/api/, ''),
         },
         '/rmp/aegis/api': {
-          target: 'http://10.102.82.119:11084', // 监控SIT
+          target: 'https://portal-eam-sit.newone.com.cn', // 监控SIT
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/rmp\/aegis\/api/, ''),
         },
@@ -185,3 +185,5 @@ const ErrorWatcherPlugin: () => Plugin = () => {
     },
   };
 };
+
+// Trigger restart

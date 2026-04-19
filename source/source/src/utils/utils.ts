@@ -9,21 +9,8 @@ import {
   unionWith,
 } from 'lodash';
 import { COOKIE_TOKEN_KEY, KEEPALIVE_CACHE_KEY_PREFIX } from './constant';
-import { userLogout } from '@/services/auth/index';
 
-export const getPageQuery = () => {
-  const queryString = window.location.href.split('?')[1];
-  if (!queryString) return {};
-
-  const params = new URLSearchParams(queryString);
-  const result: Record<string, string> = {};
-
-  for (const [key, value] of params.entries()) {
-    result[key] = value;
-  }
-
-  return result;
-};
+export const getPageQuery = () => Object.fromEntries(new URLSearchParams(window.location.search));
 
 export const getDynamicCacheKey = (
   prefix: typeof KEEPALIVE_CACHE_KEY_PREFIX[keyof typeof KEEPALIVE_CACHE_KEY_PREFIX],
@@ -34,22 +21,11 @@ export const getDynamicCacheKey = (
 
 /**
  * 退出登录
- * 1、调用后端登出接口
- * 2、删除 cookie 中的 access token
- * 3、页面重新加载至登录地址
+ * 1、删除 cookie 中的 access token
+ * 2、页面重新加载至登录地址
  */
-export const logout = async () => {
-  try {
-    // 先调用后端登出接口
-    await userLogout();
-  } catch (error) {
-    console.error('调用登出接口失败:', error);
-    // 即使后端登出失败，也要清理本地token
-  }
-
-  // 清理本地token
+export const logout = () => {
   removeAccessToken();
-  // 重定向到登录页
   redirectToLogin();
 };
 
@@ -68,13 +44,8 @@ export const isEip = () => {
  * 页面重新加载至登录地址
  */
 export const redirectToLogin = () => {
-  if (isEip()) {
-    const { protocol, host, pathname } = window.location;
-    window.location.href = `${protocol}//${host}${pathname}`;
-  } else {
-    // 使用HashRouter时，直接跳转到#/login
-    window.location.hash = '/login';
-  }
+  const { protocol, host, pathname } = window.location;
+  window.location.href = `${protocol}//${host}${pathname}#/login`;
 };
 
 /**

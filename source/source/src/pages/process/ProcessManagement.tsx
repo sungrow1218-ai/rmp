@@ -62,8 +62,10 @@ const mockData: ProcessRecord[] = Array.from({ length: 50 }).map((_, i) => {
   const status = statuses[Math.floor(Math.random() * statuses.length)];
 
   const createTime = dayjs().subtract(Math.floor(Math.random() * 10), 'day').subtract(Math.floor(Math.random() * 24), 'hour');
-  const finishTime = (status === 'completed' || status === 'rejected') 
-    ? createTime.add(Math.floor(Math.random() * 48), 'hour').format('YYYY-MM-DD HH:mm:ss') 
+  
+  // Keep finishTime as a dayjs object or null for reliable formatting
+  const finishTimeObj = (status === 'completed' || status === 'rejected') 
+    ? createTime.add(Math.floor(Math.random() * 48), 'hour')
     : null;
 
   const processType = i % 3 === 0 ? '额度调整' : (i % 2 === 0 ? '权限申请' : '风险豁免');
@@ -113,7 +115,7 @@ const mockData: ProcessRecord[] = Array.from({ length: 50 }).map((_, i) => {
       nodeName: '风控总监审批',
       handler: '赵总监',
       action: 'approve',
-      time: finishTime!,
+      time: finishTimeObj!.format('YYYY-MM-DD HH:mm:ss'), // Format here
       comment: '同意执行'
     });
   } else if (status === 'rejected') {
@@ -121,7 +123,7 @@ const mockData: ProcessRecord[] = Array.from({ length: 50 }).map((_, i) => {
       nodeName: '部门领导审批',
       handler: '王建国',
       action: 'reject',
-      time: finishTime!,
+      time: finishTimeObj!.format('YYYY-MM-DD HH:mm:ss'), // Format here
       comment: '额度调整过大，请重新评估'
     });
   }
@@ -134,7 +136,7 @@ const mockData: ProcessRecord[] = Array.from({ length: 50 }).map((_, i) => {
     currentHandler: status === 'completed' ? '-' : (status === 'rejected' ? '-' : ['部门领导', '合规专员', '风控总监'][Math.floor(Math.random() * 3)]),
     status,
     createTime: createTime.format('YYYY-MM-DD HH:mm:ss'),
-    finishTime,
+    finishTime: finishTimeObj ? finishTimeObj.format('YYYY-MM-DD HH:mm:ss') : null, // Format here
     history,
     quotaDetails: processType === '额度调整' ? [
       {

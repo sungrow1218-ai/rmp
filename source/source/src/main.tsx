@@ -1,16 +1,16 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import { ErrorBoundary } from './ErrorBoundary';
+import React, { Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import router from './config/routes.new.tsx';
+import ErrorBoundary from './ErrorBoundary';
 import './tailwind.css';
 
-const container = document.getElementById('root');
-const root = createRoot(container!);
-
-root.render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App />
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </ErrorBoundary>
   </React.StrictMode>
 );
