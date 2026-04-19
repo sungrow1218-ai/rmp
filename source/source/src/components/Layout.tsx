@@ -11,7 +11,7 @@ const { Header, Sider, Content } = AntLayout;
 export const Layout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { flatMenuData, menuItemConfig, leafMenuIds, menuIdToPathMap, menuPathToIdMap } = useMenuFunc();
+  const { flatMenuData } = useMenuFunc();
 
   // 临时占位符 - 这些功能需要从独立的钩子获取
   const loading = false;
@@ -28,7 +28,7 @@ export const Layout: React.FC = () => {
     ]
   };
   const setActiveRole = () => {};
-  const hasPermission = (path: string) => true;
+  // const hasPermission = (path: string) => true; // Removed unused variable
 
   // 根据当前路径和菜单数据判断激活的一级菜单
   const [activeTopMenu, setActiveTopMenu] = useState('report');
@@ -65,34 +65,38 @@ export const Layout: React.FC = () => {
   const handleTopMenuClick = (e: any) => {
     setActiveTopMenu(e.key);
 
-    // 获取当前可用的菜单项
-    const currentTopMenuItems = topMenuItems.length > 0 ? topMenuItems : defaultTopMenuItems;
+    // 寻找该顶级菜单下的第一个有效子菜单路径并跳转
+    const { sideMenuMap } = transformMenuData(flatMenuData || []);
+    const children = sideMenuMap[e.key];
 
-    // 找到点击的菜单项
-    const clickedMenuItem = currentTopMenuItems.find(item => item.key === e.key);
+    const findFirstLeafUrl = (items: any[]): string | null => {
+      for (const item of items) {
+        if (item.children && item.children.length > 0) {
+          const firstChildUrl = findFirstLeafUrl(item.children);
+          if (firstChildUrl) return firstChildUrl;
+        } else if (item.key && item.key !== '/') {
+          return item.key;
+        }
+      }
+      return null;
+    };
 
-    if (clickedMenuItem) {
-      // 导航到该菜单项的URL
-      navigate(clickedMenuItem.key);
-    } else {
-      // 如果找不到菜单项，根据键值导航
-      switch (e.key) {
-        case 'rule':
-          navigate('/rule-settings');
-          break;
-        case 'query':
-          navigate('/alert-query');
-          break;
-        case 'task':
-          navigate('/process');
-          break;
-        case 'report':
-          navigate('/welcome');
-          break;
-        default:
-          navigate('/welcome');
+    if (children && children.length > 0) {
+      const targetUrl = findFirstLeafUrl(children);
+      if (targetUrl) {
+        navigate(targetUrl);
+        return;
       }
     }
+
+    // 兜底逻辑：如果无法从动态数据找到子菜单，则使用默认路径
+    const defaultPaths: Record<string, string> = {
+      rule: '/rule/ruleSetting',
+      query: '/inquiry/alertQuery',
+      task: '/affairs/processManagement',
+      report: '/welcome',
+    };
+    navigate(defaultPaths[e.key] || e.key || '/welcome');
   };
 
   // 使用默认顶级菜单项（当API数据未加载时）
@@ -164,9 +168,6 @@ export const Layout: React.FC = () => {
       </div>
     );
   }
-
-  // 简化权限检查 - 由RouteGuard处理
-  // 这里只负责渲染布局，权限检查在RouteGuard中完成
 
   return (
     <AntLayout className="h-screen w-screen overflow-hidden bg-[#f0f2f5]">

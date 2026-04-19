@@ -68,6 +68,42 @@ export const routes: RouteObject[] = [
                     element: <Welcome />,
                   },
                   {
+                    path: 'rule',
+                    children: [
+                      {
+                        index: true,
+                        element: <Navigate to="/rule/ruleSetting" replace />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'inquiry',
+                    children: [
+                      {
+                        index: true,
+                        element: <Navigate to="/inquiry/alertQuery" replace />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'affairs',
+                    children: [
+                      {
+                        index: true,
+                        element: <Navigate to="/affairs/processManagement" replace />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'operations',
+                    children: [
+                      {
+                        index: true,
+                        element: <Navigate to="/operations/operationsCalendar" replace />,
+                      },
+                    ],
+                  },
+                  {
                     path: 'rule/ruleSetting',
                     element: <RuleSetting />,
                   },
