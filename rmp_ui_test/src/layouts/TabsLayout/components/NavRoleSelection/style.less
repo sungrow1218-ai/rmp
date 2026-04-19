@@ -1,0 +1,70 @@
+@role-item-hover-color: #40a9ff;
+@role-item-active-color: #1890ff;
+
+.activeRole {
+  background-color: rgba(255, 255, 255, 0.1);
+  background-size: cover;
+  height: 32px;
+  line-height: 32px;
+  color: #ffffff;
+  padding: 0 16px;
+  max-width: 220px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.roleSelectionDropdown {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  background-size: cover;
+  margin-top: 8px;
+  padding: 12px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  min-width: 220px;
+  border-radius: 8px;
+
+  .roleGroup {
+    display: flex;
+    .roleGroupContent {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .roleItem {
+        cursor: pointer;
+        transition: all 0.2s ease;
+        line-height: 36px;
+        padding: 0 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #1f2937;
+        &:hover {
+          color: @role-item-hover-color;
+          background-color: #f3f4f6;
+        }
+
+        &.active {
+          color: @role-item-active-color;
+          background-color: #e6f7ff;
+          font-weight: 600;
+
+          &:hover {
+            color: @role-item-hover-color;
+            background-color: #d9ecff;
+          }
+        }
+      }
+
+      &.singleRoleActive {
+        margin-top: 8px;
+        color: #255ff2;
+      }
+    }
+  }
+}

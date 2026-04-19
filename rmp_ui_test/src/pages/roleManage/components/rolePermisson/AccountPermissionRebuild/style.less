@@ -1,0 +1,28 @@
+.wrap {
+  width: 100%;
+  height: 100%;
+  .logo {
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.titleText {
+  font-size: 16px;
+  font-weight: 500;
+  color: #3f434b;
+  line-height: 1;
+}
+  :global {
+    .@{spriteui-prefix}-collapse-item + .@{spriteui-prefix}-collapse-item {
+      margin-top: 16px;
+    }
+    .@{spriteui-prefix}-collapse-header {
+      padding: 0 0 10px !important;
+    }
+    .@{spriteui-prefix}-collapse-content-box{
+      padding: 0 !important;
+    }
+  }
+}

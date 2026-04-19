@@ -1,0 +1,16 @@
+{
+  "extends": ["@ht/eslint-config-htsc/react"],
+  "globals": {
+    "ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION": true,
+    "page": true,
+    "REACT_APP_ENV": true
+  },
+  "rules": {
+    "import/imports-first": "off",
+    "max-statements": "off",
+    "@typescript-eslint/ban-types": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "@typescript-eslint/prefer-optional-chain": "off",
+    "curly":"off"
+  }
+}

@@ -1,0 +1,140 @@
+@import "../../../var.less";
+
+@border-color: #cecece4d;
+
+@prefix-cls: ~"@{spriteui-prefix}-basic-table";
+
+.@{prefix-cls} {
+  max-width: 100%;
+  height: 100%;
+  :global {
+    .@{spriteui-prefix}-spin-nested-loading {
+      height: 100%;
+      .@{spriteui-prefix}-spin-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .@{spriteui-prefix}-table-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .@{spriteui-prefix}-table-empty{
+        .@{spriteui-prefix}-table-body {
+          position: relative;
+          flex: 1;
+          table {
+            height: 100% !important;
+          }
+        }
+      }
+      .@{spriteui-prefix}-table-body {
+        position: relative;
+        flex: 1;
+        table {
+          height: 100%;
+        }
+      }
+      .@{spriteui-prefix}-table {
+        flex: 1;
+      }
+    }
+  }
+
+
+  &-row__striped {
+    td {
+      background-color: #fafafa !important;
+    }
+  }
+
+  &-form-container {
+    padding: 16px;
+
+    .@{spriteui-prefix}-form {
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 12px 10px 6px;
+      border-radius: 2px;
+      background-color: @component-background;
+    }
+  }
+
+  .@{spriteui-prefix}-table-cell {
+    .@{spriteui-prefix}-tag {
+      margin-right: 0;
+    }
+  }
+
+  .@{spriteui-prefix}-table-wrapper {
+    padding: 6px;
+    border-radius: 2px;
+    background-color: @component-background;
+
+    .@{spriteui-prefix}-table-title {
+      min-height: 40px;
+      padding: 0 0 8px !important;
+    }
+
+    .@{spriteui-prefix}-table.@{spriteui-prefix}-table-bordered
+      .@{spriteui-prefix}-table-title {
+      border: none !important;
+    }
+  }
+
+  .@{spriteui-prefix}-table {
+    width: 100%;
+
+    &-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 6px;
+      border-bottom: none;
+    }
+
+    //.@{spriteui-prefix}-table-tbody > tr.@{spriteui-prefix}-table-row-selected td {
+    //background-color: fade(@primary-color, 8%) !important;
+    //}
+
+    .@{spriteui-prefix}-table-thead {
+      .@{spriteui-prefix}-table-column-title,
+      .@{spriteui-prefix}-table-cell-content {
+        font-weight: 600 !important;
+      }
+    }
+
+    td {
+      padding: 12px 8px !important;
+    }
+  }
+
+  .@{spriteui-prefix}-table-wrapper .@{spriteui-prefix}-pagination {
+    margin: 10px 0 0;
+  }
+
+  .@{spriteui-prefix}-table-footer {
+    padding: 0;
+
+    .@{spriteui-prefix}-table-wrapper {
+      padding: 0;
+    }
+
+    table {
+      border: none !important;
+    }
+
+    .@{spriteui-prefix}-table-body {
+      overflow-x: hidden !important;
+      //  overflow-y: scroll !important;
+    }
+  }
+
+  &--inset {
+    .@{spriteui-prefix}-table-wrapper {
+      padding: 0;
+    }
+  }
+}
+

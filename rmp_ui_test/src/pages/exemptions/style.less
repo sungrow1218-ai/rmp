@@ -1,0 +1,41 @@
+@import "../../var.less";
+
+.pageStyle {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 14%);
+}
+
+.list {
+  background-color: #fff;
+  padding: 24px;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .title {
+    display: flex;
+    align-items: center;
+    img {
+      margin-right: 8px;
+    }
+    span {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 30px;
+    }
+  }
+  .symbols {
+    flex: 1 auto;
+    .actionBar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .symbolsSearch {
+        margin: 16px 0;
+        width: 240px;
+      }
+    }
+  }
+}

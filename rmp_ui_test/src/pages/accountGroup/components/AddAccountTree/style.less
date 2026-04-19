@@ -1,0 +1,222 @@
+/* ---------------- Tips ---------------- */
+.tips {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: #fbe7b2;
+  border: 1px solid #ffe58f;
+  height: 40px;
+  line-height: 0;
+  margin: 16px 0px 0px 0px;
+  border-radius: 6px;
+  gap: 4px;
+}
+
+.tipText {
+  color: rgba(0, 0, 0, 0.88);
+}
+.tipIcon {
+  font-size: 14px;
+  color: #faad14;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.AccountSearchBar {
+  margin: 14px 0px;
+}
+/* ---------------- 搜索栏 ---------------- */
+.searchBar {
+  background: #fff;
+  padding: 0 3px;
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+  max-width: 100%;
+  .searchBarHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .searchBarBody {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 8px;
+    row-gap: 8px;
+    width: 100%;
+    .searchBarRow {
+      display: grid;
+      grid-template-columns: 65px 1fr;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      gap: 4px;
+    }
+    .searchBarSpan {
+      color: #666;
+      white-space: nowrap;
+      text-align: right;
+      width: 65px;
+      display: inline-block;
+    }
+  }
+}
+
+/* ---------------- 底部分页 ---------------- */
+.footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  // gap: 16;
+  align-items: center;
+  .footerBody {
+    color: #666;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+  }
+}
+.customSpace > * {
+  margin-bottom: 0px;
+}
+/* ---------------- 左右树容器 ---------------- */
+
+.treeTable {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  gap: 0;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  .body {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #f0f0f0;
+    // gap: 8px;
+    min-width: 0;
+    .treeBody {
+      border-radius: 4px;
+      overflow: hidden;
+      // height: 360px; /* 与 Tree 的 height 对齐 */
+      height: 500px; /* 与 Tree 的 height 对齐 */
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      padding: 6px;
+
+      :global {
+        /* 行样式 + hover */
+        .riskControlPlatform-tree .riskControlPlatform-tree-treenode {
+          width: 100%;
+          padding: 6px 0;
+          border-bottom: 1px solid #f0f0f0;
+          position: relative;
+        }
+        .riskControlPlatform-tree .riskControlPlatform-tree-treenode:hover {
+          background-color: #fbefdd !important;
+        }
+
+        /* 缩进区无底色、无 hover 色（保持透明） */
+        .riskControlPlatform-tree .riskControlPlatform-tree-indent {
+          background: transparent !important;
+          transition: none;
+          pointer-events: none; /* 不阻塞行内交互 */
+        }
+        .riskControlPlatform-tree
+          .riskControlPlatform-tree-treenode:hover
+          .riskControlPlatform-tree-indent {
+          background: transparent !important;
+        }
+
+        /* 不要连接线（仅保留自定义开关） */
+        .riskControlPlatform-tree .riskControlPlatform-tree-indent-unit::before,
+        .riskControlPlatform-tree-switcher-line-icon,
+        .ant-tree .ant-tree-indent-unit::before,
+        .ant-tree-switcher-line-icon {
+          display: none !important;
+        }
+
+        /* 外层 switcher 容器统一尺寸并居中（与复选框等宽） */
+        .ant-tree-switcher,
+        .riskControlPlatform-tree-show-line .riskControlPlatform-tree-switcher {
+          // width: 16px;
+          min-width: 16px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: none;
+        }
+
+        .ant-tree-switcher .ant-tree-switcher-icon,
+        .riskControlPlatform-tree-switcher
+          .riskControlPlatform-tree-switcher-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          color: rgba(0, 0, 0, 0.19);
+        }
+        .riskControlPlatform-tree-checkbox {
+          margin: 4px 4px 0 4px;
+        }
+
+        /* 叶子占位：同复选框大小，避免缩进抖动（由 TSX 返回） */
+        .switcherPlaceholder {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+        }
+
+        /* 方形 +/− 容器：同复选框大小 */
+        .switcherSquare {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px;
+          height: 16px;
+          line-height: 1;
+          font-size: 16px; /* PlusSquare/MinusSquare 与复选框等大 */
+          cursor: pointer;
+        }
+        .switcherSquare :global(.anticon) {
+          font-size: 16px;
+        }
+
+        /* 颜色 */
+        .switcherOpen {
+          color: #d46b08;
+          width: 16px;
+          height: 16px;
+        } /* 展开：橙色 */
+        .switcherClose {
+          color: rgba(214, 128, 128, 0.45);
+          width: 16px;
+          height: 16px;
+        } /* 折叠：灰色 */
+        .switcherSquare:hover {
+          color: #fa8c16;
+        } /* 可选 hover */
+      }
+    }
+  }
+}
+
+/* ---------------- 中间按钮 ---------------- */
+.btnGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // gap: 4px;
+}
+
+.btnGroup .btnGroupBtn {
+  width: 30px;
+  height: 24px;
+  border-radius: 40px;
+  padding: 1px;
+  line-height: 0;
+  margin: 2px 0px;
+}
+.addAccountModal {
+  :global(.riskControlPlatform-modal-content .riskControlPlatform-modal-body) {
+    padding: 0px 32px;
+  }
+}

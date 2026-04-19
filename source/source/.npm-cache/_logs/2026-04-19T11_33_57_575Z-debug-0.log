@@ -1,0 +1,199 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.9.0
+2 info using node@v24.14.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:F:\Project\RMP\source\source\.npmrc
+5 silly config load:file:C:\Users\20832\.npmrc
+6 silly config load:file:C:\Program Files\nodejs\node_global\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install" "--cache" "./.npm-cache" "--loglevel" "info"
+9 verbose logfile logs-max:10 dir:F:\Project\RMP\source\source\.npm-cache\_logs\2026-04-19T11_33_57_575Z-
+10 verbose logfile F:\Project\RMP\source\source\.npm-cache\_logs\2026-04-19T11_33_57_575Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly fetch manifest @ant-design/icons@http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz
+15 http cache @ant-design/icons@http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz 0ms (cache hit)
+16 silly tarball no local data for @ant-design/icons@http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz. Extracting by manifest.
+17 http fetch GET http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz attempt 1 failed with ECONNRESET
+18 http fetch GET http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz attempt 2 failed with ECONNRESET
+19 http fetch GET http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz attempt 3 failed with ECONNRESET
+20 silly fetch manifest antd@http://registry.npm.htsc/antd/-/antd-5.15.0.tgz
+21 http cache antd@http://registry.npm.htsc/antd/-/antd-5.15.0.tgz 0ms (cache hit)
+22 silly tarball no local data for antd@http://registry.npm.htsc/antd/-/antd-5.15.0.tgz. Extracting by manifest.
+23 http fetch GET http://registry.npm.htsc/antd/-/antd-5.15.0.tgz attempt 1 failed with ECONNRESET
+24 http fetch GET http://registry.npm.htsc/antd/-/antd-5.15.0.tgz attempt 2 failed with ECONNRESET
+25 http fetch GET http://registry.npm.htsc/antd/-/antd-5.15.0.tgz attempt 3 failed with ECONNRESET
+26 silly fetch manifest dayjs@http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz
+27 http cache dayjs@http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz 0ms (cache hit)
+28 silly tarball no local data for dayjs@http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz. Extracting by manifest.
+29 http fetch GET http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz attempt 1 failed with ECONNRESET
+30 http fetch GET http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz attempt 2 failed with ECONNRESET
+31 http fetch GET http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz attempt 3 failed with ECONNRESET
+32 silly fetch manifest js-cookie@http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz
+33 http cache js-cookie@http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz 0ms (cache hit)
+34 silly fetch manifest lodash@http://registry.npm.htsc/lodash/-/lodash-4.18.1.tgz
+35 http cache lodash@http://registry.npm.htsc/lodash/-/lodash-4.18.1.tgz 0ms (cache hit)
+36 silly fetch manifest openskills@http://registry.npm.htsc/openskills/-/openskills-1.5.0.tgz
+37 http cache openskills@http://registry.npm.htsc/openskills/-/openskills-1.5.0.tgz 0ms (cache hit)
+38 silly tarball no local data for openskills@http://registry.npm.htsc/openskills/-/openskills-1.5.0.tgz. Extracting by manifest.
+39 http fetch GET http://registry.npm.htsc/openskills/-/openskills-1.5.0.tgz attempt 1 failed with ECONNRESET
+40 http fetch GET http://registry.npm.htsc/openskills/-/openskills-1.5.0.tgz attempt 2 failed with ECONNRESET
+41 http fetch GET http://registry.npm.htsc/openskills/-/openskills-1.5.0.tgz attempt 3 failed with ECONNRESET
+42 silly fetch manifest react@http://registry.npm.htsc/react/-/react-18.3.1.tgz
+43 http cache react@http://registry.npm.htsc/react/-/react-18.3.1.tgz 0ms (cache hit)
+44 silly tarball no local data for react@http://registry.npm.htsc/react/-/react-18.3.1.tgz. Extracting by manifest.
+45 http fetch GET http://registry.npm.htsc/react/-/react-18.3.1.tgz attempt 1 failed with ECONNRESET
+46 http fetch GET http://registry.npm.htsc/react/-/react-18.3.1.tgz attempt 2 failed with ECONNRESET
+47 http fetch GET http://registry.npm.htsc/react/-/react-18.3.1.tgz attempt 3 failed with ECONNRESET
+48 silly fetch manifest react-dom@http://registry.npm.htsc/react-dom/-/react-dom-18.3.1.tgz
+49 http cache react-dom@http://registry.npm.htsc/react-dom/-/react-dom-18.3.1.tgz 0ms (cache hit)
+50 silly tarball no local data for react-dom@http://registry.npm.htsc/react-dom/-/react-dom-18.3.1.tgz. Extracting by manifest.
+51 http fetch GET http://registry.npm.htsc/react-dom/-/react-dom-18.3.1.tgz attempt 1 failed with ECONNRESET
+52 http fetch GET http://registry.npm.htsc/react-dom/-/react-dom-18.3.1.tgz attempt 2 failed with ECONNRESET
+53 http fetch GET http://registry.npm.htsc/react-dom/-/react-dom-18.3.1.tgz attempt 3 failed with ECONNRESET
+54 silly fetch manifest react-router-dom@http://registry.npm.htsc/react-router-dom/-/react-router-dom-7.13.1.tgz
+55 http cache react-router-dom@http://registry.npm.htsc/react-router-dom/-/react-router-dom-7.13.1.tgz 0ms (cache hit)
+56 silly tarball no local data for react-router-dom@http://registry.npm.htsc/react-router-dom/-/react-router-dom-7.13.1.tgz. Extracting by manifest.
+57 http fetch GET http://registry.npm.htsc/react-router-dom/-/react-router-dom-7.13.1.tgz attempt 1 failed with ECONNRESET
+58 http fetch GET http://registry.npm.htsc/react-router-dom/-/react-router-dom-7.13.1.tgz attempt 2 failed with ECONNRESET
+59 http fetch GET http://registry.npm.htsc/react-router-dom/-/react-router-dom-7.13.1.tgz attempt 3 failed with ECONNRESET
+60 silly fetch manifest recharts@http://registry.npm.htsc/recharts/-/recharts-3.8.0.tgz
+61 http cache recharts@http://registry.npm.htsc/recharts/-/recharts-3.8.0.tgz 0ms (cache hit)
+62 silly tarball no local data for recharts@http://registry.npm.htsc/recharts/-/recharts-3.8.0.tgz. Extracting by manifest.
+63 http fetch GET http://registry.npm.htsc/recharts/-/recharts-3.8.0.tgz attempt 1 failed with ECONNRESET
+64 http fetch GET http://registry.npm.htsc/recharts/-/recharts-3.8.0.tgz attempt 2 failed with ECONNRESET
+65 http fetch GET http://registry.npm.htsc/recharts/-/recharts-3.8.0.tgz attempt 3 failed with ECONNRESET
+66 silly fetch manifest xlsx@http://registry.npm.htsc/xlsx/-/xlsx-0.18.5.tgz
+67 http cache xlsx@http://registry.npm.htsc/xlsx/-/xlsx-0.18.5.tgz 1ms (cache hit)
+68 silly tarball no local data for xlsx@http://registry.npm.htsc/xlsx/-/xlsx-0.18.5.tgz. Extracting by manifest.
+69 http fetch GET http://registry.npm.htsc/xlsx/-/xlsx-0.18.5.tgz attempt 1 failed with ECONNRESET
+70 http fetch GET http://registry.npm.htsc/xlsx/-/xlsx-0.18.5.tgz attempt 2 failed with ECONNRESET
+71 http fetch GET http://registry.npm.htsc/xlsx/-/xlsx-0.18.5.tgz attempt 3 failed with ECONNRESET
+72 silly fetch manifest @types/js-cookie@http://registry.npm.htsc/@types/js-cookie/-/js-cookie-3.0.6.tgz
+73 http cache @types/js-cookie@http://registry.npm.htsc/@types/js-cookie/-/js-cookie-3.0.6.tgz 0ms (cache hit)
+74 silly fetch manifest @types/lodash@http://registry.npm.htsc/@types/lodash/-/lodash-4.17.24.tgz
+75 http cache @types/lodash@http://registry.npm.htsc/@types/lodash/-/lodash-4.17.24.tgz 0ms (cache hit)
+76 silly fetch manifest @types/node@http://registry.npm.htsc/@types/node/-/node-24.10.0.tgz
+77 http cache @types/node@http://registry.npm.htsc/@types/node/-/node-24.10.0.tgz 0ms (cache hit)
+78 silly tarball no local data for @types/node@http://registry.npm.htsc/@types/node/-/node-24.10.0.tgz. Extracting by manifest.
+79 http fetch GET http://registry.npm.htsc/@types/node/-/node-24.10.0.tgz attempt 1 failed with ECONNRESET
+80 http fetch GET http://registry.npm.htsc/@types/node/-/node-24.10.0.tgz attempt 2 failed with ECONNRESET
+81 http fetch GET http://registry.npm.htsc/@types/node/-/node-24.10.0.tgz attempt 3 failed with ECONNRESET
+82 silly fetch manifest @types/react@http://registry.npm.htsc/@types/react/-/react-18.3.26.tgz
+83 http cache @types/react@http://registry.npm.htsc/@types/react/-/react-18.3.26.tgz 0ms (cache hit)
+84 silly tarball no local data for @types/react@http://registry.npm.htsc/@types/react/-/react-18.3.26.tgz. Extracting by manifest.
+85 http fetch GET http://registry.npm.htsc/@types/react/-/react-18.3.26.tgz attempt 1 failed with ECONNRESET
+86 http fetch GET http://registry.npm.htsc/@types/react/-/react-18.3.26.tgz attempt 2 failed with ECONNRESET
+87 http fetch GET http://registry.npm.htsc/@types/react/-/react-18.3.26.tgz attempt 3 failed with ECONNRESET
+88 silly fetch manifest @types/react-dom@http://registry.npm.htsc/@types/react-dom/-/react-dom-18.3.7.tgz
+89 http cache @types/react-dom@http://registry.npm.htsc/@types/react-dom/-/react-dom-18.3.7.tgz 0ms (cache hit)
+90 silly tarball no local data for @types/react-dom@http://registry.npm.htsc/@types/react-dom/-/react-dom-18.3.7.tgz. Extracting by manifest.
+91 http fetch GET http://registry.npm.htsc/@types/react-dom/-/react-dom-18.3.7.tgz attempt 1 failed with ECONNRESET
+92 http fetch GET http://registry.npm.htsc/@types/react-dom/-/react-dom-18.3.7.tgz attempt 2 failed with ECONNRESET
+93 http fetch GET http://registry.npm.htsc/@types/react-dom/-/react-dom-18.3.7.tgz attempt 3 failed with ECONNRESET
+94 silly fetch manifest @vitejs/plugin-react@http://registry.npm.htsc/@vitejs/plugin-react/-/plugin-react-4.7.0.tgz
+95 http cache @vitejs/plugin-react@http://registry.npm.htsc/@vitejs/plugin-react/-/plugin-react-4.7.0.tgz 0ms (cache hit)
+96 silly tarball no local data for @vitejs/plugin-react@http://registry.npm.htsc/@vitejs/plugin-react/-/plugin-react-4.7.0.tgz. Extracting by manifest.
+97 http fetch GET http://registry.npm.htsc/@vitejs/plugin-react/-/plugin-react-4.7.0.tgz attempt 1 failed with ECONNRESET
+98 http fetch GET http://registry.npm.htsc/@vitejs/plugin-react/-/plugin-react-4.7.0.tgz attempt 2 failed with ECONNRESET
+99 http fetch GET http://registry.npm.htsc/@vitejs/plugin-react/-/plugin-react-4.7.0.tgz attempt 3 failed with ECONNRESET
+100 silly fetch manifest autoprefixer@http://registry.npm.htsc/autoprefixer/-/autoprefixer-10.4.20.tgz
+101 http cache autoprefixer@http://registry.npm.htsc/autoprefixer/-/autoprefixer-10.4.20.tgz 0ms (cache hit)
+102 silly tarball no local data for autoprefixer@http://registry.npm.htsc/autoprefixer/-/autoprefixer-10.4.20.tgz. Extracting by manifest.
+103 http fetch GET http://registry.npm.htsc/autoprefixer/-/autoprefixer-10.4.20.tgz attempt 1 failed with ECONNRESET
+104 http fetch GET http://registry.npm.htsc/autoprefixer/-/autoprefixer-10.4.20.tgz attempt 2 failed with ECONNRESET
+105 http fetch GET http://registry.npm.htsc/autoprefixer/-/autoprefixer-10.4.20.tgz attempt 3 failed with ECONNRESET
+106 silly fetch manifest less@http://registry.npm.htsc/less/-/less-4.4.2.tgz
+107 http cache less@http://registry.npm.htsc/less/-/less-4.4.2.tgz 1ms (cache hit)
+108 silly tarball no local data for less@http://registry.npm.htsc/less/-/less-4.4.2.tgz. Extracting by manifest.
+109 http fetch GET http://registry.npm.htsc/less/-/less-4.4.2.tgz attempt 1 failed with ECONNRESET
+110 http fetch GET http://registry.npm.htsc/less/-/less-4.4.2.tgz attempt 2 failed with ECONNRESET
+111 http fetch GET http://registry.npm.htsc/less/-/less-4.4.2.tgz attempt 3 failed with ECONNRESET
+112 silly fetch manifest postcss@http://registry.npm.htsc/postcss/-/postcss-8.4.49.tgz
+113 http cache postcss@http://registry.npm.htsc/postcss/-/postcss-8.4.49.tgz 0ms (cache hit)
+114 silly tarball no local data for postcss@http://registry.npm.htsc/postcss/-/postcss-8.4.49.tgz. Extracting by manifest.
+115 http fetch GET http://registry.npm.htsc/postcss/-/postcss-8.4.49.tgz attempt 1 failed with ECONNRESET
+116 http fetch GET http://registry.npm.htsc/postcss/-/postcss-8.4.49.tgz attempt 2 failed with ECONNRESET
+117 http fetch GET http://registry.npm.htsc/postcss/-/postcss-8.4.49.tgz attempt 3 failed with ECONNRESET
+118 silly fetch manifest sass@http://registry.npm.htsc/sass/-/sass-1.82.0.tgz
+119 http cache sass@http://registry.npm.htsc/sass/-/sass-1.82.0.tgz 0ms (cache hit)
+120 silly tarball no local data for sass@http://registry.npm.htsc/sass/-/sass-1.82.0.tgz. Extracting by manifest.
+121 http fetch GET http://registry.npm.htsc/sass/-/sass-1.82.0.tgz attempt 1 failed with ECONNRESET
+122 http fetch GET http://registry.npm.htsc/sass/-/sass-1.82.0.tgz attempt 2 failed with ECONNRESET
+123 http fetch GET http://registry.npm.htsc/sass/-/sass-1.82.0.tgz attempt 3 failed with ECONNRESET
+124 silly fetch manifest tailwindcss@http://registry.npm.htsc/tailwindcss/-/tailwindcss-3.4.17.tgz
+125 http cache tailwindcss@http://registry.npm.htsc/tailwindcss/-/tailwindcss-3.4.17.tgz 0ms (cache hit)
+126 silly tarball no local data for tailwindcss@http://registry.npm.htsc/tailwindcss/-/tailwindcss-3.4.17.tgz. Extracting by manifest.
+127 http fetch GET http://registry.npm.htsc/tailwindcss/-/tailwindcss-3.4.17.tgz attempt 1 failed with ECONNRESET
+128 http fetch GET http://registry.npm.htsc/tailwindcss/-/tailwindcss-3.4.17.tgz attempt 2 failed with ECONNRESET
+129 http fetch GET http://registry.npm.htsc/tailwindcss/-/tailwindcss-3.4.17.tgz attempt 3 failed with ECONNRESET
+130 silly fetch manifest typescript@http://registry.npm.htsc/typescript/-/typescript-5.6.3.tgz
+131 http cache typescript@http://registry.npm.htsc/typescript/-/typescript-5.6.3.tgz 0ms (cache hit)
+132 silly tarball no local data for typescript@http://registry.npm.htsc/typescript/-/typescript-5.6.3.tgz. Extracting by manifest.
+133 http fetch GET http://registry.npm.htsc/typescript/-/typescript-5.6.3.tgz attempt 1 failed with ECONNRESET
+134 http fetch GET http://registry.npm.htsc/typescript/-/typescript-5.6.3.tgz attempt 2 failed with ECONNRESET
+135 http fetch GET http://registry.npm.htsc/typescript/-/typescript-5.6.3.tgz attempt 3 failed with ECONNRESET
+136 silly fetch manifest vite@http://registry.npm.htsc/vite/-/vite-6.4.1.tgz
+137 http cache vite@http://registry.npm.htsc/vite/-/vite-6.4.1.tgz 1ms (cache hit)
+138 silly tarball no local data for vite@http://registry.npm.htsc/vite/-/vite-6.4.1.tgz. Extracting by manifest.
+139 http fetch GET http://registry.npm.htsc/vite/-/vite-6.4.1.tgz attempt 1 failed with ECONNRESET
+140 http fetch GET http://registry.npm.htsc/vite/-/vite-6.4.1.tgz attempt 2 failed with ECONNRESET
+141 http fetch GET http://registry.npm.htsc/vite/-/vite-6.4.1.tgz attempt 3 failed with ECONNRESET
+142 silly fetch manifest vite-plugin-restart@http://registry.npm.htsc/vite-plugin-restart/-/vite-plugin-restart-0.4.2.tgz
+143 http cache vite-plugin-restart@http://registry.npm.htsc/vite-plugin-restart/-/vite-plugin-restart-0.4.2.tgz 0ms (cache hit)
+144 silly tarball no local data for vite-plugin-restart@http://registry.npm.htsc/vite-plugin-restart/-/vite-plugin-restart-0.4.2.tgz. Extracting by manifest.
+145 http fetch GET http://registry.npm.htsc/vite-plugin-restart/-/vite-plugin-restart-0.4.2.tgz attempt 1 failed with ECONNRESET
+146 http fetch GET http://registry.npm.htsc/vite-plugin-restart/-/vite-plugin-restart-0.4.2.tgz attempt 2 failed with ECONNRESET
+147 http fetch GET http://registry.npm.htsc/vite-plugin-restart/-/vite-plugin-restart-0.4.2.tgz attempt 3 failed with ECONNRESET
+148 silly placeDep ROOT @ant-design/icons@ OK for: vite-react@0.0.0 want: ^6.1.0
+149 silly placeDep ROOT @types/js-cookie@3.0.6 OK for: vite-react@0.0.0 want: ^3.0.6
+150 silly placeDep ROOT @types/lodash@4.17.24 OK for: vite-react@0.0.0 want: ^4.17.24
+151 silly placeDep ROOT @types/node@ OK for: vite-react@0.0.0 want: ^24.9.1
+152 silly placeDep ROOT @types/react@ OK for: vite-react@0.0.0 want: ^18.3.11
+153 silly placeDep ROOT @types/react-dom@ OK for: vite-react@0.0.0 want: ^18.3.1
+154 silly placeDep ROOT @vitejs/plugin-react@ OK for: vite-react@0.0.0 want: ^4.3.4
+155 silly placeDep ROOT antd@ OK for: vite-react@0.0.0 want: 5.15.0
+156 silly placeDep ROOT autoprefixer@ OK for: vite-react@0.0.0 want: 10.4.20
+157 silly placeDep ROOT dayjs@ OK for: vite-react@0.0.0 want: ^1.11.19
+158 silly placeDep ROOT js-cookie@3.0.5 OK for: vite-react@0.0.0 want: ^3.0.5
+159 silly placeDep ROOT less@ OK for: vite-react@0.0.0 want: ^4.2.1
+160 silly placeDep ROOT lodash@4.18.1 OK for: vite-react@0.0.0 want: ^4.18.1
+161 silly placeDep ROOT openskills@ OK for: vite-react@0.0.0 want: ^1.3.0
+162 silly placeDep ROOT postcss@ OK for: vite-react@0.0.0 want: 8.4.49
+163 silly placeDep ROOT react@ OK for: vite-react@0.0.0 want: ^18.3.1
+164 silly placeDep ROOT react-dom@ OK for: vite-react@0.0.0 want: ^18.3.1
+165 silly placeDep ROOT react-router-dom@ OK for: vite-react@0.0.0 want: ^7.13.1
+166 silly placeDep ROOT recharts@ OK for: vite-react@0.0.0 want: ^3.8.0
+167 silly placeDep ROOT sass@ OK for: vite-react@0.0.0 want: 1.82.0
+168 silly placeDep ROOT tailwindcss@ OK for: vite-react@0.0.0 want: 3.4.17
+169 silly placeDep ROOT typescript@ OK for: vite-react@0.0.0 want: ~5.6.2
+170 silly placeDep ROOT vite@ OK for: vite-react@0.0.0 want: ^6.1.0
+171 silly placeDep ROOT vite-plugin-restart@ OK for: vite-react@0.0.0 want: ^0.4.2
+172 silly placeDep ROOT xlsx@ OK for: vite-react@0.0.0 want: ^0.18.5
+173 verbose type system
+174 verbose stack FetchError: request to http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz failed, reason: socket hang up
+174 verbose stack     at ClientRequest.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\index.js:130:14)
+174 verbose stack     at ClientRequest.emit (node:events:508:28)
+174 verbose stack     at emitErrorEvent (node:_http_client:108:11)
+174 verbose stack     at Socket.socketOnEnd (node:_http_client:599:5)
+174 verbose stack     at Socket.emit (node:events:520:35)
+174 verbose stack     at endReadableNT (node:internal/streams/readable:1729:12)
+174 verbose stack     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+175 error code ECONNRESET
+176 error errno ECONNRESET
+177 error network request to http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz failed, reason: socket hang up
+178 error network This is a problem related to network connectivity.
+178 error network In most cases you are behind a proxy or have bad network settings.
+178 error network
+178 error network If you are behind a proxy, please make sure that the
+178 error network 'proxy' config is set properly.  See: 'npm help config'
+179 silly unfinished npm timer reify 1776598438120
+180 silly unfinished npm timer reify:loadTrees 1776598438122
+181 verbose cwd F:\Project\RMP\source\source
+182 verbose os Windows_NT 10.0.26100
+183 verbose node v24.14.0
+184 verbose npm  v11.9.0
+185 verbose exit 1
+186 verbose code 1
+187 error A complete log of this run can be found in: F:\Project\RMP\source\source\.npm-cache\_logs\2026-04-19T11_33_57_575Z-debug-0.log

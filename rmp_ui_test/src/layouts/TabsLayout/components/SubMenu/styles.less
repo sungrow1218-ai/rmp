@@ -1,0 +1,130 @@
+/* 侧边栏主容器 - 根据source项目样式调整 */
+.subMenuWrap {
+  width: 240px;
+  height: 100%;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+
+  .switchBtn {
+    width: 14px;
+    height: 36px;
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 4px 4px 0;
+    z-index: 10;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #f5f5f5;
+    }
+  }
+}
+
+.open {
+  width: 0 !important;
+}
+
+/* 父级/根菜单项 - 根据source项目样式调整 */
+.parentMenuItem {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+
+  /* 隐藏根菜单图标 */
+  .parentMenuIcon {
+    display: none !important;
+  }
+
+  .parentMenuContent {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .parentMenuLabel {
+      color: #1f2937;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+      flex: 1;
+    }
+  }
+}
+
+/* 子菜单列表容器 - 根据source项目样式调整 */
+.subMenuListContainer {
+  padding: 16px 0;
+  background-color: #ffffff;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  flex: 1;
+  overflow-y: auto;
+
+  .subMenuListPanel {
+    background-color: #ffffff;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+
+    .subMenuItem {
+      line-height: 40px;
+      font-size: 14px;
+      padding: 8px 24px;
+      margin: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      color: #4b5563;
+      transition: all 0.2s ease;
+      border-bottom: none;
+      border-radius: 0;
+
+      /* 隐藏子菜单项图标 */
+      img {
+        display: none !important;
+      }
+
+      &:hover {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        cursor: pointer;
+      }
+
+      /* 通过margin制造项与项之间的呼吸感 */
+      & + .subMenuItem {
+        margin-top: 2px;
+      }
+    }
+
+    .subMenuItemSelected {
+      background-color: #e6f7ff;
+      color: #1890ff;
+      font-weight: 600;
+      border: none;
+      border-radius: 0;
+
+      &:hover {
+        background-color: #d9ecff;
+        color: #1890ff;
+      }
+    }
+  }
+}

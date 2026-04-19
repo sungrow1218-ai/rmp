@@ -1,0 +1,55 @@
+@import '../../../../var.less';
+
+
+.accountGroupTable {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  :global {
+    .@{spriteui-antd-prefix}-table-wrapper{
+        height: 100%;
+      .@{spriteui-antd-prefix}-spin-nested-loading {
+        height: 100%;
+        .@{spriteui-antd-prefix}-spin-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        .@{spriteui-antd-prefix}-table-body {
+          flex:1
+        }
+        .@{spriteui-antd-prefix}-table-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+           .@{spriteui-prefix}-table-content{
+            height: 100%;
+            table {
+              height: 100% !important;
+            }
+          }
+        }
+        .@{spriteui-antd-prefix}-table-empty{
+          height: 100%;
+          .@{spriteui-antd-prefix}-table-container{
+            height: 100%;
+          }
+          .@{spriteui-antd-prefix}-table-content {
+            position: relative;
+            flex: 1;
+            table {
+              height: 100% !important;
+            }
+          }
+        }
+        .@{spriteui-antd-prefix}-table-body {
+          position: relative;
+          table {
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}

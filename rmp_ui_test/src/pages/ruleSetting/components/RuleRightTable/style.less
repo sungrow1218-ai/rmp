@@ -1,0 +1,97 @@
+.operationBox > button {
+  padding: 3px 5px;
+}
+
+.operationBox {
+  .logo {
+    width: 16px;
+    height: 16px;
+  }
+}
+.tableBase {
+  :global {
+    .@{spriteui-antd-prefix}-table-thead {
+      .@{spriteui-antd-prefix}-table-cell {
+        white-space:nowrap;
+      }
+    }
+    .@{spriteui-antd-prefix}-table-expanded-row {
+      .@{spriteui-antd-prefix}-table-cell {
+        background-color: #FFF8F4 ;
+      }
+    }
+    .@{spriteui-antd-prefix}-table-wrapper {
+        height: 100%;
+      .@{spriteui-antd-prefix}-spin-nested-loading {
+        height: 100%;
+        .@{spriteui-antd-prefix}-spin-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        .@{spriteui-antd-prefix}-table-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        .@{spriteui-antd-prefix}-table-empty {
+          height: 100%;
+          .@{spriteui-antd-prefix}-table-body {
+            position: relative;
+            flex: 1;
+            table {
+              height: 100% !important;
+            }
+          }
+        }
+        .@{spriteui-antd-prefix}-table-body {
+          position: relative;
+          table {
+            height: 100%;
+          }
+        }
+      }
+    }
+
+  }
+}
+.subTable{
+  :global {
+    .@{spriteui-antd-prefix}-table-cell{
+      padding:  8px !important;
+    }
+
+    .@{spriteui-antd-prefix}-table-wrapper:only-child  {
+      .@{spriteui-antd-prefix}-table{
+        // margin-inline: 0 8px;
+      }
+    }
+  }
+}
+
+.highSearchModal{
+  :global {
+    .@{spriteui-prefix}-tag-close-icon {
+      color: #1890ff !important;
+    }
+  }
+}
+
+.ulList{
+  :global {
+    .@{spriteui-prefix}-spin-container {
+      height: 400px;
+      overflow: auto;
+    }
+  }
+}
+.ulListCheck{
+  flex:1 auto;
+  :global {
+    .@{spriteui-prefix}-spin-container {
+      height: 464px;
+      width:200px;
+      overflow: auto;
+    }
+  }
+}

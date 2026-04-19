@@ -1,0 +1,16 @@
+/* AccountGroupManagement 页面样式 */
+
+.account-group-container {
+  padding: 16px;
+}
+
+.custom-table {
+  margin-top: 16px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .account-group-container {
+    padding: 8px;
+  }
+}

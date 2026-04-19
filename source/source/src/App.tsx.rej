@@ -1,0 +1,11 @@
+--- src/App.tsx
++++ src/App.tsx
+@@ -40,6 +42,8 @@
+           <Route path="rule-settings" element={<RuleSettings />} />
+           <Route path="rule-create" element={<RuleCreate />} />
+           <Route path="single-rule-create" element={<SingleRuleCreate />} />
++          <Route path="rule-edit/:id" element={<RuleEdit />} />
++          <Route path="single-rule-edit/:id" element={<SingleRuleEdit />} />
+         </Route>
+       </Routes>
+ 

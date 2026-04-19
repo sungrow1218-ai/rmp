@@ -1,0 +1,72 @@
+@import "../../var.less";
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: white;
+
+  img {
+    height: 60%;
+    margin-right: 10px;
+  }
+}
+
+.navbarContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 0 16px;
+  height: 100%;
+  align-items: center;
+  background: #001529;
+}
+
+.navTabs {
+  :global {
+    .@{spriteui-prefix}-tabs-tab {
+      transition: none !important;
+      border-radius: 4px 4px 0 0 !important;
+      margin-right: 2px !important;
+      padding: 8px 16px !important;
+      border: 1px solid #f0f0f0 !important;
+      border-bottom: none !important;
+      background-color: #fafafa !important;
+    }
+    .@{spriteui-prefix}-tabs-tab-active {
+      background-color: #ffffff !important;
+      border-color: #f0f0f0 !important;
+      border-bottom-color: #ffffff !important;
+      font-weight: 600 !important;
+      .@{spriteui-prefix}-tabs-tab-remove {
+        color: #666666 !important;
+      }
+    }
+    .@{spriteui-prefix}-tabs-tab:hover {
+      background-color: #f5f5f5 !important;
+    }
+    .@{spriteui-prefix}-tabs-ink-bar {
+      visibility: visible !important;
+      transition: none !important;
+      background-color: #1890ff !important;
+      height: 2px !important;
+    }
+    .@{spriteui-prefix}-tabs-nav {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+.cleanupBtn {
+  height: 48px;
+  width: 48px;
+  text-align: center;
+  line-height: 48px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  color: #666666;
+  &:hover {
+    color: #1890ff;
+    background-color: rgba(24, 144, 255, 0.1);
+  }
+}

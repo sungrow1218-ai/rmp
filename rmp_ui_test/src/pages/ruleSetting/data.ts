@@ -1,0 +1,15 @@
+export const columnOptions = [
+  { label: '规则编号', value: 'ruleId' },
+  { label: '规则类型', value: 'ruleType' },
+  { label: '规则名称', value: 'ruleName', disabled: true },
+  { label: '启用状态', value: 'ruleStatus' },
+  { label: '优先级', value: 'rulePriority' },
+  { label: '账户控制类型', value: 'ruleControDim' },
+  { label: '联合控制模式', value: 'unionControlType' },
+  { label: '证券控制方式', value: 'securityControlType' },
+  { label: '证券汇总方式', value: 'securitySummaryType' },
+  { label: '创建人', value: 'createUserCode' },
+  { label: '修改人', value: 'updateUserCode' },
+  { label: '创建时间', value: 'createDateTime' },
+  { label: '更新时间', value: 'lastUpdateTime' },
+];

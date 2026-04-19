@@ -1,0 +1,50 @@
+@import "../../../../var.less";
+
+.container {
+  :global {
+    // 表单错误状态下的下外边距去除
+    .@{spriteui-prefix}-form-item {
+      &.@{spriteui-prefix}-form-item-with-help {
+        margin-bottom: 0;
+      }
+
+      &.@{spriteui-prefix}-form-item-has-error {
+        margin-bottom: 0;
+      }
+    }
+    .@{spriteui-antd-prefix}-form-inline
+      .@{spriteui-antd-prefix}-form-item-inline {
+      margin-top: 0 !important;
+    }
+  }
+}
+
+.ruleConfigTableTitle {
+  height: 22px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #3f434b;
+  line-height: 22px;
+  margin-bottom: 10px;
+}
+
+.ruleConfigHeader {
+  background-color: #fbfbfb;
+  border-bottom: 1px solid #f2f2f3;
+  font-weight: bold;
+  .ruleConfigHeaderCol {
+    padding: 8px;
+    color: #3f434b;
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+.ruleConfigBody {
+  background-color: #ffffff;
+  border-bottom: 1px solid #f2f2f3;
+  .ruleConfigBodyCol {
+    padding: 8px;
+    font-size: 14px;
+    line-height: 22px;
+  }
+}

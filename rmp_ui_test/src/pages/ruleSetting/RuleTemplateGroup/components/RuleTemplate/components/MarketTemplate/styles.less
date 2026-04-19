@@ -1,0 +1,62 @@
+.content {
+  .actionBar {
+    background: rgba(234, 136, 16, 0.1);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    margin-bottom: 16px;
+    .left {
+      display: flex;
+      align-items: center;
+    }
+    .legendBlock {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      .legend {
+        display: flex;
+        align-items: center;
+      }
+      .tip {
+        flex: 1;
+        color: #8c8c8c;
+        margin-left: 20px;
+        white-space: nowrap; /* 1. 强制不换行 */
+        overflow: hidden; /* 2. 超出部分隐藏 */
+        text-overflow: ellipsis; /* 3. 显示省略号 */
+      }
+    }
+  }
+  .timeRange {
+    background: rgba(234, 136, 16, 0.1);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    margin-bottom: 16px;
+    .time {
+      width: 166px;
+      height: 32px;
+      background: #ffffff;
+      border: 1px solid #dddee0;
+      line-height: 32px;
+      text-align: center;
+    }
+  }
+  .securityGroup {
+    :global {
+      .@{spriteui-antd-prefix}-collapse-item {
+        border: none;
+      }
+    }
+  }
+  .blockTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #444444;
+    line-height: 24px;
+    width: 500px;
+    cursor: pointer;
+  }
+}

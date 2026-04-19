@@ -1,0 +1,43 @@
+.poolDetailtableBase {
+  flex:1;
+  :global {
+    .@{spriteui-prefix}-table-wrapper{
+        height: 100%;
+      .@{spriteui-prefix}-spin-nested-loading {
+        height: 100%;
+        .@{spriteui-prefix}-spin-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        .@{spriteui-prefix}-table-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+           .@{spriteui-prefix}-table-content{
+            height: 100%;
+            table {
+              height: 100% !important;
+            }
+          }
+        }
+        .@{spriteui-prefix}-table-empty{
+          height: 100%;
+          .@{spriteui-prefix}-table-body {
+            position: relative;
+            flex: 1;
+            table {
+              height: 100% !important;
+            }
+          }
+        }
+        .@{spriteui-prefix}-table-body {
+          position: relative;
+          table {
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}

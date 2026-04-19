@@ -1,0 +1,184 @@
+@import "../../var.less";
+
+.process {
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 14%);
+  .isIfram {
+    height: calc(100vh - 45px) !important;
+  }
+  .processWrap {
+    padding:24px;
+    height: calc(100vh - 158px);
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .searchWrap {
+      background: #fff;
+      padding-bottom: 0;
+      .titleText {
+        margin-left: 8px;
+        font-size: 16px;
+        line-height: 18px;
+        font-weight: bold;
+      }
+      .logo {
+        width: 16px;
+        height: 16px;
+      }
+    }
+    .tableBase {
+      :global {
+        // .@{spriteui-prefix}-table-thead {
+        //   .@{spriteui-prefix}-table-cell {
+        //     text-align: center;
+        //   }
+
+          // 小原点样式
+          .@{spriteui-prefix}-badge-status-dot {
+            width: 10px;
+            height: 10px;
+          };
+          .@{spriteui-prefix}-card-body{
+            padding-top: 5px;
+          }
+
+        .@{spriteui-prefix}-table-expanded-row {
+          background-color: #FFF8F4 ;
+          .@{spriteui-prefix}-table-cell{
+            background-color: #FFF8F4 ;
+          }
+        }
+        .@{spriteui-prefix}-table-wrapper{
+            height: 100%;
+          .@{spriteui-prefix}-spin-nested-loading {
+            height: 100%;
+            .@{spriteui-prefix}-spin-container {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+            }
+            .@{spriteui-prefix}-table-container {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+            }
+            .@{spriteui-prefix}-table-empty{
+              height: 100%;
+              .@{spriteui-prefix}-table-body {
+                position: relative;
+                flex: 1;
+                table {
+                  height: 100% !important;
+                }
+              }
+            }
+            .@{spriteui-prefix}-table-body {
+              position: relative;
+              table {
+                height: 100%;
+              }
+            }
+          }
+        }
+
+      }
+
+
+    }
+    .changeInfo{
+      :global{
+        .@{spriteui-prefix}-table-thead {
+            .@{spriteui-prefix}-table-cell {
+              background: #FBF0E9;
+              color:#bb744a ;
+            }
+        }
+      }
+    }
+
+    :global {
+      .@{spriteui-prefix}-table-small {
+        .@{spriteui-prefix}-empty-medium {
+          margin: 0;
+        }
+      }
+
+      .@{spriteui-prefix}-table-wrapper {
+        background: #fff;
+      }
+
+      .@{spriteui-prefix}-modal-body {
+        padding: 0;
+      }
+      .@{spriteui-prefix}-modal-header{
+        display: none;
+      }
+    }
+  }
+  .hiddenText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 700px;
+  }
+
+  .wrap {
+    display: flex;
+    height: 100%;
+    .left {
+      flex: 1 auto;
+      padding: 28px 24px 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      .title {
+        display: flex;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 500;
+        color: #3f434b;
+      }
+      .btns {
+        width: 260px;
+        position: absolute;
+        bottom: 20px;          /* 距离底部 0 */
+        right: 17px;           /* 距离右侧 0 */
+      }
+    }
+
+    .right {
+      flex-basis: 400px;
+      flex-shrink: 0;
+      background: #f2f2f3;
+      border-radius: 0 4px 4px 0;
+      opacity: 1;
+    }
+  }
+
+  .propcessForm{
+    :global{
+      .@{spriteui-prefix}-form-item {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .rowHover {
+      :global {
+        .@{spriteui-prefix}-table-cell-row-hover{
+           background: #fafafa !important;
+        }
+        .@{spriteui-prefix}-table-tbody > tr > td {
+           border-color: #E0E0E0 !important;
+        }
+    }
+  }
+  .errorInfo{
+    color: @error-color;
+  }
+}
+
+
+
+

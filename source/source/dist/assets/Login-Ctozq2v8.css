@@ -1,0 +1,160 @@
+/* 登录页面样式 - 从 rmp_ui_test 的 style.less 转换而来，保持完全一致 */
+
+.selectionForbidden {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('/assets/background-D2VnBac1.png');
+  background-size: cover;
+}
+
+.login-centerPart {
+  width: 1280px;
+  height: 720px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+}
+
+.login-left {
+  width: 700px;
+  padding: 140px 64px;
+  background-image: url('/assets/form-side-background-J0VCVX6d.png');
+  background-size: cover;;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-slogan {
+  font-size: 36px;
+  color: #ffffff;
+  line-height: 64px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.login-right {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-logo {
+  margin-top: 116px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.logoLeft {
+  width: 60px;
+  height: 60px;
+}
+
+.logoRight {
+  width: 315px;
+  height: 50px;
+}
+
+.login-form {
+  margin-top: 72px;
+  width: 330px;
+}
+
+/* 修改默认 Input 输入框样式，去除圆角+底边框改色 */
+.login-input {
+  border-bottom: 1px solid #c6c8ca !important;
+  border-radius: 0 !important;
+}
+
+/* 覆盖 Input 在登录页的默认样式行为 */
+/* 表单项 label 字体 */
+.ant-form-item-label > label {
+  font-size: 16px !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* 表单错误状态边框样式 */
+.ant-input-status-error,
+.ant-input-affix-wrapper-status-error {
+  border-bottom: 1px solid #ff4d4f !important;
+}
+
+/* Input.Password 的边距特殊处理保持与普通 Input 一致 */
+.ant-input-affix-wrapper-lg {
+  height: 39.14px !important;
+  padding: 0 !important;
+}
+
+.ant-input-affix-wrapper-lg > input {
+  padding: 6.5px 11px !important;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 64px;
+  height: 40px;
+}
+
+/* 响应式设计 */
+@media (max-width: 992px) {
+  .login-centerPart {
+    width: 90%;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .login-left,
+  .login-right {
+    width: 100%;
+    height: auto;
+  }
+
+  .login-left {
+    padding: 40px 24px;
+    border-radius: 16px 16px 0 0;
+    min-height: 200px;
+  }
+
+  .login-right {
+    padding: 40px 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-container {
+    padding: 20px;
+  }
+
+  .login-centerPart {
+    width: 100%;
+  }
+
+  .login-slogan {
+    font-size: 22px;
+    line-height: 36px;
+  }
+}

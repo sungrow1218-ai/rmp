@@ -1,0 +1,29 @@
+.account-tree-transfer {
+  .acct-tree {
+    :global {
+      /* 每一行容器：div.riskControlPlatform-tree-treenode */
+      .riskControlPlatform-tree .riskControlPlatform-tree-treenode {
+        position: relative;
+        padding: 12px 8px;
+
+        /* 每行浅灰下边框 */
+        border-bottom: 1px solid #f0f0f0;
+
+        /* 整行浅橘 hover */
+        &:hover {
+          background-color: #fbefdd !important;
+        }
+      }
+
+      [class*="tree-node-content-wrapper"]:hover,
+      [class*="tree-node-content-wrapper"].riskControlPlatform-tree-node-selected {
+        background-color: transparent !important;
+      }
+    }
+
+    .acct-node.is-disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}

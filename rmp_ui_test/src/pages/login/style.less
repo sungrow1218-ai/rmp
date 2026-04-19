@@ -1,0 +1,95 @@
+@import "../../var.less";
+
+.selectionForbidden {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../../assets/login/background.png");
+  background-size: cover;
+
+  .centerPart {
+    width: 1280px;
+    height: 720px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    .left {
+      width: 700px;
+      height: 100%;
+      padding: 140px 64px;
+      background-image: url("../../assets/login/form-side-background.png");
+      background-size: cover;
+      .slogan {
+        font-size: 36px;
+        color: #ffffff;
+        line-height: 64px;
+        .selectionForbidden;
+      }
+    }
+    .right {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .logo {
+        margin-top: 116px;
+        .logoLeft {
+          width: 60px;
+          height: 60px;
+        }
+        .logoRight {
+          width: 315px;
+          height: 50px;
+        }
+        .selectionForbidden;
+      }
+      .loginForm {
+        margin-top: 72px;
+        width: 330px;
+      }
+      // 修改默认 Input 输入框样式，去除圆角+底边框改色
+      .loginInput {
+        border-bottom: 1px solid #c6c8ca;
+        border-radius: 0;
+      }
+      // 覆盖 Input 在登录页的默认样式行为
+      :global {
+        // 表单项 label 字体
+        .@{spriteui-prefix}-form-item-label > label {
+          font-size: 16px !important;
+          .selectionForbidden;
+        }
+        // 表单错误状态边框样式，分为两种因为 Password 的 DOM 结构不太一样
+        .@{spriteui-prefix}-input-status-error,
+        .@{spriteui-prefix}-input-affix-wrapper-status-error {
+          border-bottom: 1px solid #ff4d4f;
+        }
+        // Input.Password 的边距特殊处理保持与普通 Input 一致
+        .@{spriteui-prefix}-input-affix-wrapper-lg {
+          height: 39.14px;
+          padding: 0;
+          > input {
+            padding: 6.5px 11px;
+          }
+        }
+      }
+      .loginButton {
+        width: 100%;
+        margin-top: 64px;
+        height: 40px;
+      }
+    }
+  }
+}

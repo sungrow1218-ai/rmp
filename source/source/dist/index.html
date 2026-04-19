@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React App</title>
+  <script type="module" crossorigin src="/assets/index-CUErrqgd.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DknhNTou.css">
+  <script>
+              (function() {
+                // Global error handler - runs before any other JS
+                window.addEventListener('error', function(event) {
+                  console.error('Global error caught:', event.error);
+
+                  window.parent.postMessage({
+                    source: 'ai-coding-template',
+                    type: 'javascript-error',
+                    error: event.error ? event.error.toString() : event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
+                    colno: event.colno,
+                    stack: event.error ? event.error.stack : '',
+                  }, '*');
+                });
+
+                // Global unhandled rejection handler
+                window.addEventListener('unhandledrejection', function(event) {
+                  console.error('Unhandled promise rejection:', event.reason);
+
+                  const error = event.reason;
+                  window.parent.postMessage({
+                    source: 'ai-coding-template',
+                    type: 'javascript-error',
+                    error: error ? error.toString() : 'Unhandled promise rejection',
+                    filename: '',
+                    lineno: 0,
+                    colno: 0,
+                    stack: error ? error.stack || '' : '',
+                  }, '*');
+                });
+              })();
+            </script>
+</head>
+<body>
+    <div id="root"></div> 
+  <script>
+              (function() {
+                const TARGET_SELECTOR = 'vite-error-overlay';
+
+                function checkAndAlert(node) {
+                  const children = node.shadowRoot.querySelector('.window').children;
+                  const text = [];
+                  for (const el of children) {
+                    if (!el.classList.contains('tip')) {
+                      text.push(el.innerText)
+                    }
+                  }
+
+                  window.parent.postMessage({
+                    source: 'ai-coding-template',
+                    type: 'vite-error',
+                    error: text.join('\n'),
+                  }, '*');
+                }
+
+                // 1. 检查页面加载时是否已经存在
+                if (document.querySelector(TARGET_SELECTOR)) {
+                  checkAndAlert(document.querySelector(TARGET_SELECTOR));
+                }
+
+                // 2. 创建观察者监听后续的 DOM 变动
+                const observer = new MutationObserver((mutations) => {
+                  for (const mutation of mutations) {
+                    if (mutation.addedNodes.length) {
+                      for (const node of mutation.addedNodes) {
+                        if (node.nodeType === 1) {
+                          if (node.matches(TARGET_SELECTOR)) {
+                            checkAndAlert(node);
+                            return;
+                          }
+                        }
+                      }
+                    }
+                  }
+                });
+
+                observer.observe(document.body, {
+                  childList: true,
+                  subtree: true
+                });
+              })();
+            </script>
+</body>
+</html>

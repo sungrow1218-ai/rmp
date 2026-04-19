@@ -1,0 +1,44 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.9.0
+2 info using node@v24.14.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:F:\Project\RMP\source\source\.npmrc
+5 silly config load:file:C:\Users\20832\.npmrc
+6 silly config load:file:C:\Program Files\nodejs\node_global\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install" "--cache" "./.npm-cache"
+9 verbose logfile logs-max:10 dir:F:\Project\RMP\source\source\.npm-cache\_logs\2026-04-19T11_28_53_060Z-
+10 verbose logfile F:\Project\RMP\source\source\.npm-cache\_logs\2026-04-19T11_28_53_060Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly fetch manifest @ant-design/icons@http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz
+15 http cache @ant-design/icons@http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz 1ms (cache hit)
+16 silly tarball no local data for @ant-design/icons@http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz. Extracting by manifest.
+17 http fetch GET 200 https://registry.npmmirror.com/npm 183ms
+18 http fetch GET http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz attempt 1 failed with ECONNRESET
+19 http fetch GET http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz attempt 2 failed with ECONNRESET
+20 http fetch GET http://registry.npm.htsc/@ant-design/icons/-/icons-6.1.0.tgz attempt 3 failed with ECONNRESET
+21 silly fetch manifest antd@http://registry.npm.htsc/antd/-/antd-5.15.0.tgz
+22 http cache antd@http://registry.npm.htsc/antd/-/antd-5.15.0.tgz 0ms (cache hit)
+23 silly tarball no local data for antd@http://registry.npm.htsc/antd/-/antd-5.15.0.tgz. Extracting by manifest.
+24 http fetch GET http://registry.npm.htsc/antd/-/antd-5.15.0.tgz attempt 1 failed with ECONNRESET
+25 http fetch GET http://registry.npm.htsc/antd/-/antd-5.15.0.tgz attempt 2 failed with ECONNRESET
+26 http fetch GET http://registry.npm.htsc/antd/-/antd-5.15.0.tgz attempt 3 failed with ECONNRESET
+27 silly fetch manifest dayjs@http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz
+28 http cache dayjs@http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz 0ms (cache hit)
+29 silly tarball no local data for dayjs@http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz. Extracting by manifest.
+30 http fetch GET http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz attempt 1 failed with ECONNRESET
+31 http fetch GET http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz attempt 2 failed with ECONNRESET
+32 http fetch GET http://registry.npm.htsc/dayjs/-/dayjs-1.11.19.tgz attempt 3 failed with ECONNRESET
+33 silly fetch manifest js-cookie@http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz
+34 http cache js-cookie@http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz 0ms (cache hit)
+35 silly tarball no local data for js-cookie@http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz. Extracting by manifest.
+36 http fetch GET http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz attempt 1 failed with ECONNRESET
+37 http fetch GET http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz attempt 2 failed with ECONNRESET
+38 http fetch GET http://registry.npm.htsc/js-cookie/-/js-cookie-3.0.5.tgz attempt 3 failed with ECONNRESET
+39 silly fetch manifest lodash@http://registry.npm.htsc/lodash/-/lodash-4.18.1.tgz
+40 http cache lodash@http://registry.npm.htsc/lodash/-/lodash-4.18.1.tgz 0ms (cache hit)
+41 silly tarball no local data for lodash@http://registry.npm.htsc/lodash/-/lodash-4.18.1.tgz. Extracting by manifest.
+42 http fetch GET http://registry.npm.htsc/lodash/-/lodash-4.18.1.tgz attempt 1 failed with ECONNRESET
+43 http fetch GET http://registry.npm.htsc/lodash/-/lodash-4.18.1.tgz attempt 2 failed with ECONNRESET

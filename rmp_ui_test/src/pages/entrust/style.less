@@ -1,0 +1,74 @@
+.entrust {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 14%);
+  .search {
+    .titleText {
+      margin-left: 8px;
+      font-size: 16px;
+      line-height: 18px;
+      font-weight: bold;
+    }
+    .logo {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .entrustTable {
+    flex: 1 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    background-color: #fff;
+    padding-top: 0;
+    box-sizing: border-box;
+    .tableBase {
+      flex: 1 auto;
+      :global {
+        .@{spriteui-prefix}-table-thead {
+          min-height: 70px;
+        }
+        .@{spriteui-prefix}-table-wrapper{
+            height: 100%;
+          .@{spriteui-prefix}-spin-nested-loading {
+            height: 100%;
+            .@{spriteui-prefix}-spin-container {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+            }
+            .@{spriteui-prefix}-table-container {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+               .@{spriteui-prefix}-table-content{
+                height: 100%;
+                table {
+                  height: 100% !important;
+                }
+              }
+            }
+            .@{spriteui-prefix}-table-empty{
+              height: 100%;
+              .@{spriteui-prefix}-table-body {
+                position: relative;
+                flex: 1;
+                table {
+                  height: 100% !important;
+                }
+              }
+            }
+            .@{spriteui-prefix}-table-body {
+              position: relative;
+              table {
+                height: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,199 @@
+@import "../../var.less";
+
+  .secuPoolAll{
+    width: 100%;
+    height: 100%;
+    // display: flex;
+    // flex-direction:column;
+  }
+  .leftSecuPool {
+    background-color: #fff;
+    padding: 24px;
+    margin-right: 16px;
+    flex-basis: 450px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 14%);
+    :global{
+      // .@{spriteui-antd-prefix}-tree {
+      //   width:100%;
+      //   .@{spriteui-antd-prefix}-tree-treenode{
+      //     padding-left:0;
+      //     margin-right: 8px;
+      //   }
+      //   .@{spriteui-antd-prefix}-tree-node-content-wrapper{
+      //      padding:0;
+      //     &.@{spriteui-antd-prefix}-tree-node-selected{
+      //       padding:0;
+      //       background-color: transparent;
+      //         .pool{
+      //           flex: 1;
+      //         }
+      //     }
+      //     .@{spriteui-antd-prefix}-tree-switcher-noop{
+      //       display: none;
+      //     }
+      //   }
+      // }
+    }
+    .btnWrap{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      padding-top: 0;
+
+    }
+    .treeBox{
+      overflow-y: auto;
+    }
+  }
+  .secuPoolContainer {
+    height:  calc(100% - 148px) ;
+    display: flex;
+    justify-content: flex-start;
+    :global{
+      .@{spriteui-prefix}-btn {
+        .anticon-plus{
+          font-size:15px;
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+      }
+      .@{spriteui-prefix}-input{
+        border-radius: 2px;
+      }
+      .@{spriteui-prefix}-input-disabled{
+        background: #F6F6F7;
+        border: 1px solid #DDDEE0;
+        color: #C6C8CA;
+      }
+    }
+    .ruleSettingOperation {
+      display: flex;
+      justify-content: space-around;
+      font-size: 14px;
+    }
+
+    .rightTable {
+      flex: 1 auto;
+      height: 100%;
+      width: 0;
+      display: flex;
+      padding: 24px;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 14%);
+
+      .rightSpace {
+        display: flex;
+        align-items:center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+       .leftStyle{
+        display: flex;
+        align-items:center;
+
+       }
+        :global{
+          .@{spriteui-prefix}-form{
+            width:300px;
+            display: flex;
+            .@{spriteui-prefix}-btn{
+              margin-left:8px;
+            }
+          }
+        }
+        .rigthBtns{
+          button{
+            margin-left: 10px;
+          }
+        }
+
+      }
+      :global{
+        .@{spriteui-prefix}-card-body{
+          height: calc(100% - 58px);
+          display:flex;
+          flex-direction: column;
+        }
+        .@{spriteui-prefix}-table-row {
+          padding: 8px 16px 8px 0;
+          color: #3F434B;
+          background-clip: text;
+        }
+      }
+
+    .rightWrap{
+      display: flex;
+      flex-direction: column;
+      // flex: 1 1 0%;
+      //   overflow: auto;
+    }
+      .resetBtn {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+    }
+  }
+  .isIfram {
+    height: calc(100vh - 45px) !important;
+  }
+
+  .exportModal{
+    .tips{
+      color: #999BA0;
+      padding: 12px 0;
+    }
+    :global{
+      .@{spriteui-prefix}-modal-body{
+        padding-top: 0;
+      }
+      .@{spriteui-prefix}-modal-footer{
+      //  display: flex;
+      //  justify-content: space-between;
+      }
+      .@{spriteui-prefix}-table-row {
+        padding: 8px 16px 8px 0;
+        color: #3F434B;
+        background-clip: text;
+        white-space: nowrap
+      }
+    }
+  }
+  .titleText {
+    margin-left: 8px;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: bold;
+  }
+  .logo {
+    width: 16px;
+    height: 16px;
+  }
+
+  .detailForm{
+    :global{
+      .@{spriteui-prefix}-picker{
+        width: 100%;
+      }
+    }
+  }
+  .singleLine {
+    width: 240px;
+    white-space: nowrap; /* 强制文本不换行 */
+    overflow: hidden; /* 超出隐藏 */
+    text-overflow: ellipsis; /* 超出部分显示省略号 */
+  }
+
+
+  .PoolBaseInfo{
+    :global{
+      .@{spriteui-antd-prefix}-descriptions-item-label{
+        color: @text-color !important;
+      }
+    }
+  }

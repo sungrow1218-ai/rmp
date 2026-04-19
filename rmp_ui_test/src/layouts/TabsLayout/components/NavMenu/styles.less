@@ -1,0 +1,113 @@
+@import "../../../../var.less";
+
+.navMenu {
+  :global {
+    .@{spriteui-antd-prefix}-menu {
+      background: transparent !important;
+      border: none !important;
+    }
+
+    /* 默认状态 */
+    .@{spriteui-antd-prefix}-menu-title-content {
+      color: #a6adb4 !important;
+      font-size: 15px !important;
+      font-weight: 500;
+      padding: 0 20px !important;
+    }
+
+    /* 一级导航菜单项基础样式 */
+    .@{spriteui-antd-prefix}-menu-submenu,
+    .@{spriteui-antd-prefix}-menu-item {
+      padding: 0 !important;
+      margin: 0 4px !important;
+      border-radius: 6px !important; /* 圆角半径6px */
+      height: 40px !important;
+      line-height: 40px !important;
+      margin-top: 8px !important;
+      transition: all 0.2s ease-in-out !important;
+    }
+
+    /* 悬停态 (Hover State) - 深灰色/暗色高亮 */
+    .@{spriteui-antd-prefix}-menu-submenu:hover,
+    .@{spriteui-antd-prefix}-menu-item:hover {
+      color: #ffffff !important;
+      background-color: #333333 !important; /* 深灰色背景 */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* 选中态 (Active/Selected State) - 品牌主色高亮亮蓝色 */
+    .@{spriteui-antd-prefix}-menu-submenu-selected,
+    .@{spriteui-antd-prefix}-menu-item-selected {
+      color: #ffffff !important;
+      background-color: #1677FF !important; /* 品牌主色高亮亮蓝色 */
+      font-weight: 600 !important;
+      box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3) !important;
+    }
+
+    /* 选中态文字样式 - 白色且加粗 */
+    .@{spriteui-antd-prefix}-menu-submenu-selected .@{spriteui-antd-prefix}-menu-title-content,
+    .@{spriteui-antd-prefix}-menu-item-selected .@{spriteui-antd-prefix}-menu-title-content {
+      color: #ffffff !important;
+      font-weight: 600 !important;
+    }
+
+    /* 确保选中态文字始终为白色，覆盖所有可能的状态 */
+    .@{spriteui-antd-prefix}-menu-submenu-selected,
+    .@{spriteui-antd-prefix}-menu-item-selected,
+    .@{spriteui-antd-prefix}-menu-submenu-selected:hover,
+    .@{spriteui-antd-prefix}-menu-item-selected:hover {
+      color: #ffffff !important;
+    }
+
+    /* 针对 dark theme 的选中态样式 - 更具体的选择器 */
+    .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-submenu-selected,
+    .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected {
+      color: #ffffff !important;
+      background-color: #1677FF !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3) !important;
+    }
+
+    .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-submenu-selected .@{spriteui-antd-prefix}-menu-title-content,
+    .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected .@{spriteui-antd-prefix}-menu-title-content {
+      color: #ffffff !important;
+      font-weight: 600 !important;
+    }
+
+    /* 强制选中态样式，使用最高优先级 */
+    .navMenu :global(.@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected) {
+      background-color: #1677FF !important;
+      color: #ffffff !important;
+    }
+
+    .navMenu :global(.@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected .@{spriteui-antd-prefix}-menu-title-content) {
+      color: #ffffff !important;
+      font-weight: 600 !important;
+    }
+
+    /* 箭头图标样式 */
+    .@{spriteui-antd-prefix}-menu-submenu-arrow {
+      color: #a6adb4 !important;
+      font-size: 12px !important;
+      transition: color 0.2s ease-in-out !important;
+    }
+
+    /* 选中态箭头图标 - 白色 */
+    .@{spriteui-antd-prefix}-menu-submenu-selected .@{spriteui-antd-prefix}-menu-submenu-arrow,
+    .@{spriteui-antd-prefix}-menu-item-selected .@{spriteui-antd-prefix}-menu-submenu-arrow {
+      color: #ffffff !important;
+    }
+
+    /* 悬停态箭头图标 - 白色 */
+    .@{spriteui-antd-prefix}-menu-submenu:hover .@{spriteui-antd-prefix}-menu-submenu-arrow,
+    .@{spriteui-antd-prefix}-menu-item:hover .@{spriteui-antd-prefix}-menu-submenu-arrow {
+      color: #ffffff !important;
+    }
+
+    /* 确保悬停态文字为白色 */
+    .@{spriteui-antd-prefix}-menu-submenu:hover .@{spriteui-antd-prefix}-menu-title-content,
+    .@{spriteui-antd-prefix}-menu-item:hover .@{spriteui-antd-prefix}-menu-title-content {
+      color: #ffffff !important;
+    }
+  }
+}

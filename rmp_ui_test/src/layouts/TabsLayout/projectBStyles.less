@@ -1,0 +1,242 @@
+// 项目B样式规范 - 转换为Less格式
+
+// 顶部菜单样式优化 - 更新为新的样式规范
+.customTopMenu {
+  :global {
+    .@{spriteui-antd-prefix}-menu-dark {
+      .@{spriteui-antd-prefix}-menu-item {
+        color: #a6adb4 !important;
+        padding: 0 20px !important;
+        margin: 0 4px !important;
+        border-radius: 6px !important; /* 圆角半径6px */
+        height: 40px !important;
+        line-height: 40px !important;
+        margin-top: 8px !important;
+        transition: all 0.2s ease-in-out !important; /* 过渡效果 */
+      }
+
+      /* 悬停态 (Hover State) */
+      .@{spriteui-antd-prefix}-menu-item:hover {
+        color: #ffffff !important;
+        background-color: #333333 !important; /* 深灰色背景 */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      /* 选中态 (Active/Selected State) - 更具体的选择器 */
+      .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected {
+        color: #ffffff !important;
+        background-color: #1677FF !important; /* 品牌主色高亮亮蓝色 */
+        font-weight: 600 !important;
+        box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3) !important;
+      }
+
+      /* 选中态文字样式 - 白色且加粗 */
+      .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected .@{spriteui-antd-prefix}-menu-title-content {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+      }
+
+      /* 确保选中态文字始终为白色，覆盖所有可能的状态 */
+      .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected,
+      .@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected:hover {
+        color: #ffffff !important;
+      }
+
+      /* 强制选中态样式，使用最高优先级 */
+      .customTopMenu :global(.@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected) {
+        background-color: #1677FF !important;
+        color: #ffffff !important;
+      }
+
+      .customTopMenu :global(.@{spriteui-antd-prefix}-menu-dark.@{spriteui-antd-prefix}-menu-horizontal .@{spriteui-antd-prefix}-menu-item-selected .@{spriteui-antd-prefix}-menu-title-content) {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+      }
+
+      /* 确保悬停态文字为白色 */
+      .@{spriteui-antd-prefix}-menu-item:hover .@{spriteui-antd-prefix}-menu-title-content {
+        color: #ffffff !important;
+      }
+    }
+  }
+}
+
+// 侧边栏菜单样式优化
+.customSideMenu {
+  :global {
+    .@{spriteui-antd-prefix}-menu-item {
+      margin: 4px 12px !important;
+      width: calc(100% - 24px) !important;
+      border-radius: 4px !important;
+      color: #4b5563 !important;
+    }
+
+    .@{spriteui-antd-prefix}-menu-item-selected {
+      background-color: #e6f7ff !important;
+      color: #1890ff !important;
+      font-weight: 600 !important;
+    }
+  }
+}
+
+// 空间选择器极简样式优化
+.customSpaceSelect {
+  :global {
+    .@{spriteui-antd-prefix}-select-selector {
+      padding: 6px 12px !important;
+      height: auto !important;
+      background-color: #f9fafb !important;
+      border-radius: 6px !important;
+      transition: all 0.2s ease !important;
+      border: none !important;
+    }
+
+    .@{spriteui-antd-prefix}-select-selection-item {
+      font-weight: 600 !important;
+      color: #1f2937 !important;
+      font-size: 14px !important;
+      line-height: 1.5 !important;
+    }
+
+    .@{spriteui-antd-prefix}-select-focused .@{spriteui-antd-prefix}-select-selector,
+    .@{spriteui-antd-prefix}-select-open .@{spriteui-antd-prefix}-select-selector {
+      box-shadow: none !important;
+      background-color: #f3f4f6 !important;
+    }
+
+    &:hover .@{spriteui-antd-prefix}-select-selector {
+      background-color: #f3f4f6 !important;
+    }
+
+    .@{spriteui-antd-prefix}-select-arrow {
+      color: #9ca3af !important;
+      right: 12px !important;
+    }
+  }
+}
+
+// 表格全局样式优化
+.customTable {
+  :global {
+    .@{spriteui-antd-prefix}-table-container {
+      border-radius: 4px 4px 0 0 !important;
+    }
+
+    .@{spriteui-antd-prefix}-table-thead > tr > th {
+      background-color: #fafafa !important;
+      color: #333 !important;
+      font-weight: 600 !important;
+      padding: 12px 8px !important;
+      border-bottom: 1px solid #f0f0f0 !important;
+      border-right: 1px solid #f0f0f0 !important;
+      text-align: center !important;
+    }
+
+    .@{spriteui-antd-prefix}-table-thead > tr > th::before {
+      display: none !important;
+    }
+
+    .@{spriteui-antd-prefix}-table-tbody > tr > td {
+      padding: 10px 8px !important;
+      border-bottom: 1px solid #f0f0f0 !important;
+      border-right: 1px solid #f0f0f0 !important;
+      color: #666;
+    }
+
+    .@{spriteui-antd-prefix}-table-tbody > tr:hover > td {
+      background-color: #fafafa !important;
+    }
+  }
+}
+
+// 规则设置页面表格特殊样式
+.customRuleTable {
+  :global {
+    .@{spriteui-antd-prefix}-table-thead > tr > th {
+      background-color: #fafafa !important;
+      color: #333 !important;
+      font-weight: 600 !important;
+      padding: 12px 16px !important;
+      border-bottom: 1px solid #f0f0f0 !important;
+    }
+
+    .@{spriteui-antd-prefix}-table-thead > tr > th::before {
+      display: none !important;
+    }
+
+    .@{spriteui-antd-prefix}-table-tbody > tr > td {
+      padding: 12px 16px !important;
+      border-bottom: 1px solid #f0f0f0 !important;
+      color: #666;
+    }
+  }
+}
+
+// 集群列背景色优化
+.colParent { background-color: #f6ffed !important; }
+.colHk { background-color: #f9f0ff !important; }
+.colConnect { background-color: #fff7e6 !important; }
+
+// Tabs 样式优化
+.customTabs {
+  :global {
+    .@{spriteui-antd-prefix}-tabs-nav {
+      margin-bottom: 0 !important;
+    }
+
+    .@{spriteui-antd-prefix}-tabs-tab {
+      padding: 8px 16px !important;
+      font-size: 15px !important;
+    }
+  }
+}
+
+// 通知图标样式
+.notificationBadge {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .notificationDot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 6px;
+    height: 6px;
+    background-color: #ff4d4f;
+    border-radius: 50%;
+  }
+}
+
+// 用户下拉菜单样式
+.userDropdownMenu {
+  :global {
+    .@{spriteui-antd-prefix}-menu-item {
+      padding: 8px 16px !important;
+      font-size: 14px !important;
+
+      &:hover {
+        background-color: #f5f5f5 !important;
+      }
+    }
+
+    .@{spriteui-antd-prefix}-menu-item-danger {
+      color: #ff4d4f !important;
+
+      &:hover {
+        color: #ff7875 !important;
+        background-color: #fff2f0 !important;
+      }
+    }
+  }
+}

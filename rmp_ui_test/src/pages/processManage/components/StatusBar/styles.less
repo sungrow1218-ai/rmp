@@ -1,0 +1,113 @@
+
+.done,
+.doing {
+  padding: 16px 16px 0;
+  border-radius: 4px;
+  .first {
+    padding-top: 20px 0;
+    margin-left: 12px;
+    .currentBot {
+      font-size: 14px;
+      color: #bb744a;
+      margin: 12px 0;
+    }
+    .left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: 20px;
+    }
+    .right {
+      margin-left: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .status {
+      color: #bb744a;
+      opacity: 0.5;
+      text-align: center;
+    }
+    .statusCheck {
+      color: #bb744a;
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .circe {
+      width: 20px;
+      height: 20px;
+      background-color: #bb744a;
+      border-radius: 50%;
+      margin-left: 10px;
+    }
+    .bot {
+      width: 1px;
+      height: 200px;
+      background-color: #bb744a;
+    }
+  }
+  .label {
+    font-size: 14px;
+    color: #979797;
+  }
+  .wrap {
+    font-size: 14px;
+    color: #3f434b;
+    height: 100%;
+  }
+  .space {
+    margin: 12px 0;
+    // margin-left: 20px;
+  }
+  .hiddenText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .statusWait {
+    width:24px;
+    height: 24px;
+    border: 2px solid #979797;
+    border-radius: 50%;
+  }
+  .person {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    background-image: url(../../../../assets/process/person.png);
+    background-position: center;
+    display: inline-block;
+  }
+  .stepCreat{
+    :global{
+      .@{spriteui-prefix}-steps-item {
+        flex-basis: 80px;
+      }
+    }
+  }
+  :global{
+    .@{spriteui-prefix}-steps-item {
+      flex-basis: 80px;
+    }
+    .@{spriteui-prefix}-steps-item-wait  {
+      .@{spriteui-prefix}-steps-item-container{
+        .@{spriteui-prefix}-steps-item-tail {
+          &::after{
+            background-color: #979797;
+          }
+        }
+      }
+    }
+    .@{spriteui-prefix}-steps-item-process {
+      .@{spriteui-prefix}-steps-item-container{
+        .@{spriteui-prefix}-steps-item-tail {
+          &::after{
+            background-color: #979797;
+          }
+        }
+      }
+    }
+  }
+}

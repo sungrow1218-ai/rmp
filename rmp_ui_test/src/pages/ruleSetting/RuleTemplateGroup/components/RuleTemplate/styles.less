@@ -1,0 +1,28 @@
+.content {
+  border-radius: 4px 4px 4px 4px;
+  border: 1px solid #dddee0;
+  padding: 14px;
+  height: 100%;
+  overflow-y: auto;
+  .item {
+    display: flex;
+    padding: 6px 0;
+    align-items: center;
+    line-height: 32px;
+  }
+  .marketTabs {
+  }
+}
+
+.required {
+  display: flex;
+  align-items: center;
+  &::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    content: "*";
+  }
+}

@@ -1,0 +1,12 @@
+/* AlertQuery 页面样式 */
+
+.alert-query-container {
+  padding: 16px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .alert-query-container {
+    padding: 8px;
+  }
+}

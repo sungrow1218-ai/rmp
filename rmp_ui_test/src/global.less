@@ -1,0 +1,243 @@
+@import "./var.less";
+
+@font-face {
+  font-family: 'myfont';
+  src: url('./assets/font/PingFangSC-Regular.woff2');
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 1600px;
+  height: 100%;
+  // font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif;
+  font-family: 'myfont', PingFang SC-Regular, PingFang SC;
+}
+
+mark{
+  padding:0 !important;
+}
+
+.disabled-dropdown {
+  max-height: 300px;
+  overflow: auto;
+  background: #fff;
+  padding: 4px;
+  border-radius: 2px;
+  outline: none;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 8%),
+    0 3px 6px -4px rgba(0, 0, 0, 12%), 0 9px 28px 8px rgba(0, 0, 0, 5%);
+}
+
+.disabled-dropdown-option-item {
+  position: relative;
+  display: block;
+  min-height: 32px;
+  padding: 5px 12px;
+  color: #444444;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  transition: background 0.3s ease;
+  border-radius: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  &:hover {
+    background-color: #f6f6f7;
+  }
+}
+
+.disabled-dropdown-option-selected-item {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content :space-between;
+  span {
+    color:#bb744a;
+  }
+}
+
+// 导航菜单
+.@{spriteui-prefix}-menu-vertical.@{spriteui-prefix}-menu-sub {
+  font-size: 14px !important;
+  min-width: 150px !important;
+}
+
+// 对话框标题
+.@{spriteui-prefix}-modal-title {
+  font-weight: 600 !important;
+}
+
+// confirm对话框
+.@{spriteui-prefix}-modal-confirm-body .@{spriteui-prefix}-modal-confirm-title {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: @text-color !important;
+}
+
+.@{spriteui-prefix}-modal-confirm-body
+  .@{spriteui-prefix}-modal-confirm-content {
+  font-size: 14px !important;
+  color: #757575 !important;
+  margin-top: 16px !important;
+}
+
+// 分页底部边距
+.@{spriteui-prefix}-table-pagination.@{spriteui-prefix}-pagination {
+  margin: 16px 0 0 !important;
+}
+
+// 折叠框
+.@{spriteui-prefix}-collapse-content {
+  color: @text-color !important;
+}
+
+.@{spriteui-prefix}-collapse
+  > .@{spriteui-prefix}-collapse-item
+  > .@{spriteui-prefix}-collapse-header {
+  color: @text-color !important;
+}
+
+// 树组件
+.@{spriteui-antd-prefix}-tree .@{spriteui-antd-prefix}-tree-node-content-wrapper {
+  padding: 0 !important;
+}
+
+.@{spriteui-antd-prefix}-tree {
+  .@{spriteui-antd-prefix}-tree-list {
+    .@{spriteui-antd-prefix}-tree-treenode {
+      width: calc(100% - 8px);
+      padding-left: 0;
+      // .@{spriteui-antd-prefix}-tree-switcher-noop {
+      //   width: 0 !important;
+      // }
+      .@{spriteui-antd-prefix}-tree-node-content-wrapper {
+        flex: 1;
+        padding: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &:hover {
+          background: #f1e5de;
+          color: #bb744a;
+          .sideIcon {
+            color: #bb744a;
+          }
+        }
+        .@{spriteui-antd-prefix}-tree-title {
+          width: 100%;
+          display: flex;
+          padding: 3px 6px;
+          align-self: center;
+          div {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+    .@{spriteui-antd-prefix}-tree-node-selected {
+      color: @primary-color !important;
+      background: #f1e5de !important;
+      .sideIcon {
+        color: #bb744a;
+      }
+    }
+  }
+}
+
+// table
+.@{spriteui-antd-prefix}-table-wrapper .@{spriteui-antd-prefix}-table{
+  scrollbar-color: unset;
+}
+
+.@{spriteui-antd-prefix}-table-thead>tr>th{
+    color: #757575 !important;
+    font-weight: 500 !important;
+}
+
+.@{spriteui-antd-prefix}-table-wrapper .@{spriteui-antd-prefix}-table-row-expand-icon {
+  &:hover {
+    color:#c7926f;
+    border-color: currentColor;
+  }
+  &:active {
+    color:#c7926f;
+    border-color: currentColor;
+  }
+  &:focus {
+    color:#c7926f;
+    border-color: currentColor;
+  }
+}
+
+// Collapse
+.@{spriteui-antd-prefix}-collapse-borderless >.@{spriteui-antd-prefix}-collapse-item>.@{spriteui-antd-prefix}-collapse-content {
+  background-color:#fff !important;
+}
+
+// Select
+.@{spriteui-antd-prefix}-select-outlined.@{spriteui-antd-prefix}-select-multiple .@{spriteui-antd-prefix}-select-selection-item {
+  color:#bb744a;
+}
+
+.@{spriteui-antd-prefix}-select-multiple .@{spriteui-antd-prefix}-select-selection-overflow .@{spriteui-antd-prefix}-select-selection-item-remove {
+  color:#bb744a;
+}
+
+.@{spriteui-antd-prefix}-select-item-option-active {
+  background:rgba(0,0,0,0.04) !important;
+}
+
+.@{spriteui-antd-prefix}-select-multiple {
+  &.@{spriteui-antd-prefix}-select-disabled {
+    .@{spriteui-antd-prefix}-select-selection-overflow .@{spriteui-antd-prefix}-select-selection-item {
+      background: #f6f6f7 !important;
+    }
+  }
+}
+
+// 选中菜单
+.@{spriteui-antd-prefix}-menu-item-selected {
+  color: #444444 !important;
+  font-weight: 600;
+}
+ 
+// sprite ui 自定义webkit系列浏览器滚动条样式
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+// 可变尺寸
+.react-resizable {
+  user-select:none;
+}
+
+// 可变尺寸-处理
+.resizable-handler {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -4px;
+  z-index: 1;
+  width: 8px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  cursor: col-resize;
+  &:active,
+  &:hover {
+    z-index: 5;
+    cursor: col-resize;
+    & .resizable-line {
+      background: var(--line-color, #b6b7b9);
+      pointer-events: none;
+    }
+  }
+}

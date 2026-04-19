@@ -1,0 +1,79 @@
+upstream ApiGateway {
+  server 10.18.56.200:1080;
+}
+
+upstream AegisApiGateway {
+  server 10.18.62.100:11084;
+}
+
+upstream XlogReportServer {
+  server 168.7.76.117:8080;
+}
+
+server {
+  listen 80;
+  charset utf-8;
+  gzip on;
+  gzip_min_length 1k;
+  gzip_comp_level 9;
+  gzip_types text/plain text/css text/javascript application/json application/javascript application/x-javascript application/xml;
+  gzip_vary on;
+  gzip_disable "MSIE [1-6]\.";
+
+  root /usr/share/nginx/html;
+  include /etc/nginx/mime.types;
+
+  # 配置404页面
+  error_page 404 /404.html;
+
+  # 指定404页面的位置，注意路径和root的对应关系
+  location = /404.html {
+    root /usr/share/nginx/html; # 确保路径正确
+    internal; # 限制外部直接访问404页面
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+
+  location /rmp {
+    alias /usr/share/nginx/html/;
+    index index.html;
+  }
+
+  location /rmp/api/ {
+    proxy_pass http://ApiGateway/;
+    proxy_http_version 1.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    client_max_body_size 100M;
+  }
+
+  location /rmp/aegis/api/ {
+    proxy_pass http://AegisApiGateway/;
+    proxy_http_version 1.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    client_max_body_size 100M;
+  }
+
+  # xlog 埋点上报接口代理
+  location ^~ /rmp/xlogReport {
+    proxy_pass http://XlogReportServer/HTAI/collect/web/report;
+    proxy_http_version 1.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    add_header Access-Control-Allow-Origin *;
+    add_header Cache-Control no-store;
+  }
+
+  # xlog 埋点配置拉取接口代理
+  location ^~ /rmp/xlogConfig {
+    proxy_pass http://XlogReportServer/HTAI/collect/web/config;
+    proxy_http_version 1.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    add_header Access-Control-Allow-Origin *;
+    add_header Cache-Control no-store;
+  }
+}
