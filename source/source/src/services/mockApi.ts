@@ -303,9 +303,109 @@ export const mockQueryMenuConfig = async (
   // 模拟网络延迟
   await new Promise(resolve => setTimeout(resolve, 200));
 
+  // 构建符合IRuleConfiguration结构的示例数据
+  const displayConfig = JSON.stringify({
+    Id: "1",
+    Name: "规则配置",
+    workGroupList: [
+      {
+        WorkGroupId: 1,
+        WorkGroupName: "默认工作台",
+        RuleTypeList: {
+          rule: [
+            {
+              Id: "abnormal",
+              Name: "异常交易类",
+              SubList: [
+                {
+                  Id: "manipulation",
+                  Name: "拉抬打压",
+                  SubList: [
+                    { Id: "Z01101", Name: "开盘集合竞价阶段拉抬打压控制", SubList: [] },
+                    { Id: "Z01102", Name: "连续竞价阶段拉抬打压控制", SubList: [] }
+                  ]
+                },
+                {
+                  Id: "false_declaration",
+                  Name: "虚假申报",
+                  SubList: [
+                    { Id: "Z01201", Name: "开盘集合竞价阶段虚假申报控制", SubList: [] },
+                    { Id: "Z01202", Name: "连续竞价阶段虚假申报控制", SubList: [] }
+                  ]
+                },
+                {
+                  Id: "self_trading",
+                  Name: "自买自卖",
+                  SubList: [
+                    { Id: "Z01301", Name: "开盘集合竞价阶段自买自卖控制", SubList: [] },
+                    { Id: "Z01302", Name: "连续竞价阶段自买自卖控制", SubList: [] }
+                  ]
+                }
+              ]
+            },
+            {
+              Id: "large_order",
+              Name: "大额申报类",
+              SubList: [
+                {
+                  Id: "stock_large_order",
+                  Name: "股票大额申报",
+                  SubList: [
+                    { Id: "Z03101", Name: "大额申报监控", SubList: [] }
+                  ]
+                },
+                {
+                  Id: "derivative_large_order",
+                  Name: "衍生品大额申报",
+                  SubList: [
+                    { Id: "Z03201", Name: "债券交易大额申报监控", SubList: [] },
+                    { Id: "Z03202", Name: "期货交易大额申报监控", SubList: [] },
+                    { Id: "Z03203", Name: "期权交易大额申报监控", SubList: [] }
+                  ]
+                }
+              ]
+            }
+          ],
+          template: [
+            {
+              Id: "abnormal",
+              Name: "异常交易类",
+              SubList: [
+                {
+                  Id: "manipulation",
+                  Name: "拉抬打压",
+                  SubList: [
+                    { Id: "Z01101", Name: "开盘集合竞价阶段拉抬打压控制", SubList: [] },
+                    { Id: "Z01102", Name: "连续竞价阶段拉抬打压控制", SubList: [] }
+                  ]
+                },
+                {
+                  Id: "false_declaration",
+                  Name: "虚假申报",
+                  SubList: [
+                    { Id: "Z01201", Name: "开盘集合竞价阶段虚假申报控制", SubList: [] },
+                    { Id: "Z01202", Name: "连续竞价阶段虚假申报控制", SubList: [] }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        WorkGroupId: 2,
+        WorkGroupName: "测试工作台",
+        RuleTypeList: {
+          rule: [],
+          template: []
+        }
+      }
+    ]
+  });
+
   return createMockResponse({
     resultList: [
-      { menuId: 1, displayConfig: '{"theme":"dark","layout":"side"}' },
+      { menuId: 1, displayConfig },
       { menuId: 2, displayConfig: '{"theme":"light","layout":"top"}' },
     ],
     total: 2,

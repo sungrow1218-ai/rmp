@@ -1,0 +1,173 @@
+{
+    "errorId": 0,
+    "errorMessage": "success",
+    "data": {
+        "errorId": 0,
+        "errorMessage": null,
+        "pageId": 1,
+        "pageSize": 1000,
+        "totalSize": 1,
+        "resultList": [
+            {
+                "ruleTemplateId": 2,
+                "ruleType": "Z01201",
+                "securityGroupList": [
+                    {
+                        "securityGroupId": 6,
+                        "securityGroupName": "上交所-风险警示股、上证50成分股",
+                        "securityControlType": 4,
+                        "securitySummaryType": 0,
+                        "securitySummaryCondition": null,
+                        "securityList": null,
+                        "secuSetIdList": [
+                            10001,
+                            10002
+                        ],
+                        "secuFilterClassList": null,
+                        "excludeSecurityList": null,
+                        "marketId": [
+                            2
+                        ],
+                        "thresholdList": [
+                            {
+                                "thresholdId": 33,
+                                "warnLevel": 3,
+                                "compareDirection": 1,
+                                "value": 4,
+                                "unit": 3,
+                                "factorType": 16,
+                                "setType": 3,
+                                "effectiveFlag": 1
+                            },
+                            {
+                                "thresholdId": 33,
+                                "warnLevel": 1,
+                                "compareDirection": 1,
+                                "value": 5,
+                                "unit": 3,
+                                "factorType": 16,
+                                "setType": null,
+                                "effectiveFlag": null
+                            },
+                            {
+                                "thresholdId": 33,
+                                "warnLevel": 2,
+                                "compareDirection": 1,
+                                "value": 6,
+                                "unit": 3,
+                                "factorType": 16,
+                                "setType": null,
+                                "effectiveFlag": null
+                            },
+                            {
+                                "thresholdId": 34,
+                                "warnLevel": 3,
+                                "compareDirection": 1,
+                                "value": 4.00,
+                                "unit": 4,
+                                "factorType": 17,
+                                "setType": 3,
+                                "effectiveFlag": 1
+                            },
+                            {
+                                "thresholdId": 34,
+                                "warnLevel": 1,
+                                "compareDirection": 1,
+                                "value": 5.00,
+                                "unit": 4,
+                                "factorType": 17,
+                                "setType": null,
+                                "effectiveFlag": null
+                            },
+                            {
+                                "thresholdId": 34,
+                                "warnLevel": 2,
+                                "compareDirection": 1,
+                                "value": 8.00,
+                                "unit": 4,
+                                "factorType": 17,
+                                "setType": null,
+                                "effectiveFlag": null
+                            },
+                            {
+                                "thresholdId": 35,
+                                "warnLevel": 3,
+                                "compareDirection": 1,
+                                "value": 4.00,
+                                "unit": 4,
+                                "factorType": 18,
+                                "setType": 3,
+                                "effectiveFlag": 1
+                            },
+                            {
+                                "thresholdId": 35,
+                                "warnLevel": 1,
+                                "compareDirection": 1,
+                                "value": 5.00,
+                                "unit": 4,
+                                "factorType": 18,
+                                "setType": null,
+                                "effectiveFlag": null
+                            },
+                            {
+                                "thresholdId": 35,
+                                "warnLevel": 2,
+                                "compareDirection": 1,
+                                "value": 6.00,
+                                "unit": 4,
+                                "factorType": 18,
+                                "setType": null,
+                                "effectiveFlag": null
+                            },
+                            {
+                                "thresholdId": 36,
+                                "warnLevel": 3,
+                                "compareDirection": 1,
+                                "value": 4,
+                                "unit": 2,
+                                "factorType": 15,
+                                "setType": 3,
+                                "effectiveFlag": 1
+                            },
+                            {
+                                "thresholdId": 36,
+                                "warnLevel": 1,
+                                "compareDirection": 1,
+                                "value": 5,
+                                "unit": 2,
+                                "factorType": 15,
+                                "setType": null,
+                                "effectiveFlag": null
+                            },
+                            {
+                                "thresholdId": 36,
+                                "warnLevel": 2,
+                                "compareDirection": 1,
+                                "value": 6,
+                                "unit": 2,
+                                "factorType": 15,
+                                "setType": null,
+                                "effectiveFlag": null
+                            }
+                        ],
+                        "extraParameterList": null,
+                        "effectiveTimeList": [
+                            {
+                                "beginTime": "093000",
+                                "endTime": "145700"
+                            }
+                        ]
+                    }
+                ],
+                "workGroupId": 1,
+                "ruleTmplGroupId": 2,
+                "createRoleId": 2,
+                "createUserCode": "018566",
+                "updateUserCode": "018566",
+                "createTime": "20260423160244",
+                "lastUpdateTime": "20260423160309"
+            }
+        ]
+    },
+    "success": true
+}

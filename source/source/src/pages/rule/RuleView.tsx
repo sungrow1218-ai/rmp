@@ -4,6 +4,11 @@ import { ArrowLeftOutlined, AppstoreFilled, IdcardOutlined } from '@ant-design/i
 import { useNavigate, useParams } from 'react-router-dom';
 import type { ColumnsType } from 'antd/es/table';
 
+interface RuleViewProps {
+  embedded?: boolean;
+  onClose?: () => void;
+}
+
 const { Title } = Typography;
 const { Panel } = Collapse;
 
@@ -338,7 +343,7 @@ return (
 );
 };
 
-export const RuleView: React.FC = () => {
+export const RuleView: React.FC<RuleViewProps> = ({ embedded = false, onClose }) => {
 const navigate = useNavigate();
 const { id } = useParams();
 const [loading, setLoading] = useState(true);
@@ -410,7 +415,12 @@ setLoading(false);
 }, [id]);
 
 const handleBack = () => {
-navigate('/rule-settings');
+  // If in embedded mode, call onClose; otherwise navigate
+  if (embedded && onClose) {
+    onClose();
+  } else {
+    navigate('/rule/ruleSetting');
+  }
 };
 
 const handleUnbindBatch = () => {
@@ -497,56 +507,58 @@ render: (_, record) => (
 // 过滤出还未绑定的账户组供选择
 const availableGroups = allGroups.filter(g => !boundGroups.some(bg => bg.id === g.id));
 
-// 渲染只读的阈值配置内容 (拉抬打压)
+// 渲染只读的阈值配置内容 (拉抬打压) - 显示三级阈值
 const renderThresholdContent = (market: string, scope: string) => {
-const data = ruleData[market as keyof typeof ruleData]?.[scope as keyof typeof ruleData['SH']];
-if (!data) return null;
+  const marketData = ruleData[market as keyof typeof ruleData] as any;
+  if (!marketData) return null;
+  const data = marketData[scope];
+  if (!data) return null;
 
-return (
-<div className="py-4 px-6 flex flex-col gap-6 bg-gray-50/50 rounded-md border border-gray-100">
-{/* 条件一 */}
-<div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
-  <span className="font-medium">(一) 连续竞价阶段任意3分钟内，成交数量在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">万股 以上或成交金额在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">万元 以上</span>
-</div>
+  return (
+    <div className="py-4 px-6 flex flex-col gap-6 bg-gray-50/50 rounded-md border border-gray-100">
+      {/* 条件一 */}
+      <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
+        <span className="font-medium">(一) 连续竞价阶段任意3分钟内，成交数量在</span>
+        <Space.Compact>
+          <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t1}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t2}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t3}</span>
+        </Space.Compact>
+        <span className="font-medium">万股 以上或成交金额在</span>
+        <Space.Compact>
+          <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t1}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t2}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t3}</span>
+        </Space.Compact>
+        <span className="font-medium">万元 以上</span>
+      </div>
 
-{/* 条件二 */}
-<div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
-  <span className="font-medium">(二) 成交数量占成交期间市场成交总量的比例在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">% 以上</span>
-</div>
+      {/* 条件二 */}
+      <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
+        <span className="font-medium">(二) 成交数量占成交期间市场成交总量的比例在</span>
+        <Space.Compact>
+          <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t1}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t2}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t3}</span>
+        </Space.Compact>
+        <span className="font-medium">% 以上</span>
+      </div>
 
-{/* 条件三 */}
-<div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
-  <span className="font-medium">(三) 价格涨（跌）幅</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">% 以上</span>
-</div>
-</div>
-);
+      {/* 条件三 */}
+      <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
+        <span className="font-medium">(三) 价格涨（跌）幅</span>
+        <Space.Compact>
+          <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_t1}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_t2}</span>
+          <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_t3}</span>
+        </Space.Compact>
+        <span className="font-medium">% 以上</span>
+      </div>
+    </div>
+  );
 };
 
-// 渲染只读的阈值配置内容 (开盘集合竞价虚假申报)
+// 渲染只读的阈值配置内容 (开盘集合竞价虚假申报) - 显示三级阈值
 const renderFalseDeclarationThresholdContent = (market: string, scope: string) => {
 const data = ruleData.false_declaration_thresholds[market as keyof typeof ruleData.false_declaration_thresholds]?.[scope as keyof typeof ruleData.false_declaration_thresholds['SH']];
 if (!data) return null;
@@ -556,68 +568,72 @@ return (
 {/* 条件一 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(一) 以偏离前收盘价</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_deviation_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_deviation_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.price_deviation_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">% 以上的价格申报买入或卖出</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.price_deviation_t1}/二级:{data.price_deviation_t2}/三级:{data.price_deviation_t3}%
+    </div>
+  </div>
+  <span className="font-medium">以上的价格申报买入或卖出</span>
 </div>
 
 {/* 条件二 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(二) 累计申报数量在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.declare_volume_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.declare_volume_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.declare_volume_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">万股 以上或申报金额在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.declare_amount_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.declare_amount_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.declare_amount_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">万元 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.declare_volume_t1}/二级:{data.declare_volume_t2}/三级:{data.declare_volume_t3}
+    </div>
+    <span className="font-medium">万股</span>
+  </div>
+  <span className="font-medium">以上或申报金额在</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.declare_amount_t1}/二级:{data.declare_amount_t2}/三级:{data.declare_amount_t3}
+    </div>
+    <span className="font-medium">万元</span>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 
 {/* 条件三 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(三) 累计申报数量占市场同方向申报总量的比例在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.market_declare_ratio_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.market_declare_ratio_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.market_declare_ratio_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">% 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.market_declare_ratio_t1}/二级:{data.market_declare_ratio_t2}/三级:{data.market_declare_ratio_t3}%
+    </div>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 
 {/* 条件四 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(四) 累计撤销申报数量占累计申报数量的比例在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.cancel_ratio_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.cancel_ratio_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.cancel_ratio_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">% 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.cancel_ratio_t1}/二级:{data.cancel_ratio_t2}/三级:{data.cancel_ratio_t3}
+    </div>
+    <span className="font-medium">%</span>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 
 {/* 条件五 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(五) 以低于申报买入价格反向申报卖出 或者 以高于申报卖出价格反向申报买入的次数在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.reverse_declare_count_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.reverse_declare_count_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.reverse_declare_count_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">次 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.reverse_declare_count_t1}/二级:{data.reverse_declare_count_t2}/三级:{data.reverse_declare_count_t3}
+    </div>
+    <span className="font-medium">次</span>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 </div>
 );
 };
 
-// 渲染只读的阈值配置内容 (连续竞价阶段虚假申报)
+// 渲染只读的阈值配置内容 (连续竞价阶段虚假申报) - 显示三级阈值
 const renderContinuousFalseDeclarationThresholdContent = (market: string, scope: string) => {
 const data = ruleData.continuous_false_declaration_thresholds?.[market as keyof typeof ruleData.continuous_false_declaration_thresholds]?.[scope as keyof typeof ruleData.continuous_false_declaration_thresholds['SH']];
 if (!data) return null;
@@ -632,57 +648,63 @@ return (
 {/* 条件二 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(二) 单笔申报后，实时最优5档内累计剩余有效申报数量在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.volume_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">万股 以上或者金额在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.amount_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">万元 以上，且占市场同方向最优5档剩余有效申报总量的比例在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.ratio_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">% 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.volume_t1}/二级:{data.volume_t2}/三级:{data.volume_t3}
+    </div>
+    <span className="font-medium">万股</span>
+  </div>
+  <span className="font-medium">以上或者金额在</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.amount_t1}/二级:{data.amount_t2}/三级:{data.amount_t3}
+    </div>
+    <span className="font-medium">万元</span>
+  </div>
+  <span className="font-medium">以上，且占市场同方向最优5档剩余有效申报总量的比例在</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.ratio_t1}/二级:{data.ratio_t2}/三级:{data.ratio_t3}
+    </div>
+    <span className="font-medium">%</span>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 
 {/* 条件三 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(三) 满足上述情形的申报发生</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.count_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.count_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.count_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">次 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.count_t1}/二级:{data.count_t2}/三级:{data.count_t3}
+    </div>
+    <span className="font-medium">次</span>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 
 {/* 条件四 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(四) 累计撤销申报数量占累计申报数量的比例在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.cancel_ratio_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.cancel_ratio_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.cancel_ratio_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">% 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.cancel_ratio_t1}/二级:{data.cancel_ratio_t2}/三级:{data.cancel_ratio_t3}
+    </div>
+    <span className="font-medium">%</span>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 
 {/* 条件五 */}
 <div className="flex items-center gap-3 text-gray-700 flex-wrap leading-loose">
   <span className="font-medium">(五) 存在反向卖出（买入）的成交次数 在</span>
-  <Space.Compact>
-    <span className="px-4 py-1 bg-white border border-gray-200 rounded-l text-center min-w-[60px] text-[#1890ff] font-medium">{data.reverse_trade_count_t1}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 text-center min-w-[60px] text-[#1890ff] font-medium">{data.reverse_trade_count_t2}</span>
-    <span className="px-4 py-1 bg-white border-y border-r border-gray-200 rounded-r text-center min-w-[60px] text-[#1890ff] font-medium">{data.reverse_trade_count_t3}</span>
-  </Space.Compact>
-  <span className="font-medium">次 以上</span>
+  <div className="flex items-center gap-1">
+    <div className="px-3 py-1 bg-white border border-gray-200 rounded text-center min-w-[140px] text-[#1890ff] font-medium">
+      一级:{data.reverse_trade_count_t1}/二级:{data.reverse_trade_count_t2}/三级:{data.reverse_trade_count_t3}
+    </div>
+    <span className="font-medium">次</span>
+  </div>
+  <span className="font-medium">以上</span>
 </div>
 </div>
 );
@@ -726,14 +748,35 @@ return (
 <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
 
 {/* 基本信息 */}
-<Card title={<span className="font-bold text-gray-800 border-l-4 border-[#1890ff] pl-2">基本信息</span>} bordered={false} className="shadow-sm rounded-lg shrink-0">
-  <Descriptions column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}>
+<Card
+  title={<span className="font-bold text-gray-800 border-l-4 border-[#1890ff] pl-2">基本信息</span>}
+  bordered={false}
+  className="shadow-sm rounded-lg shrink-0"
+  bodyStyle={{ padding: '24px' }}
+>
+  <Descriptions
+    column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
+    labelStyle={{
+      fontWeight: '500',
+      color: '#666',
+      width: '100px',
+      paddingRight: '16px'
+    }}
+    contentStyle={{
+      fontWeight: '600',
+      color: '#333',
+      fontSize: '15px'
+    }}
+    size="middle"
+  >
     <Descriptions.Item label="指标组编号">50036</Descriptions.Item>
     <Descriptions.Item label="指标组名称">UST-A-TYFXRZGB</Descriptions.Item>
-    <Descriptions.Item label="启用状态"><Tag color="success">已启用</Tag></Descriptions.Item>
+    <Descriptions.Item label="启用状态"><Tag color="success" style={{ fontWeight: '500', padding: '2px 8px' }}>已启用</Tag></Descriptions.Item>
     <Descriptions.Item label="创建人">018566</Descriptions.Item>
     <Descriptions.Item label="创建时间">2026-01-26 17:32:01</Descriptions.Item>
-    <Descriptions.Item label="备注说明" span={2}>这是一个用于监控异常交易行为的指标组模板。</Descriptions.Item>
+    <Descriptions.Item label="备注说明" span={2}>
+      <span style={{ color: '#666', fontSize: '14px' }}>这是一个用于监控异常交易行为的指标组模板。</span>
+    </Descriptions.Item>
   </Descriptions>
 </Card>
 
@@ -1034,3 +1077,7 @@ width={1000}
 );
 };
 export default RuleView;
+
+
+
+

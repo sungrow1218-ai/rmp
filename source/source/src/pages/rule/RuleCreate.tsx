@@ -3,6 +3,11 @@ import { Form, Input, Switch, Button, Typography, Tree, InputNumber, Space, mess
 import { ArrowLeftOutlined, SaveOutlined, CheckCircleOutlined, InfoCircleOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
+interface RuleCreateProps {
+  embedded?: boolean;
+  onClose?: () => void;
+}
+
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -74,7 +79,7 @@ const dynamicDimensionGroups = [
 { value: 'dim_core_assets', label: '核心资产组' },
 ];
 
-export const RuleCreate: React.FC = () => {
+export const RuleCreate: React.FC<RuleCreateProps> = ({ embedded = false, onClose }) => {
 const navigate = useNavigate();
 const [form] = Form.useForm();
 const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
@@ -93,7 +98,12 @@ const [selectedNewScopes, setSelectedNewScopes] = useState<string[]>([]);
 const [addScopeContext, setAddScopeContext] = useState<{ruleKey: string, market: string} | null>(null);
 
 const handleBack = () => {
-navigate('/rule-settings');
+  // If in embedded mode, call onClose; otherwise navigate
+  if (embedded && onClose) {
+    onClose();
+  } else {
+    navigate('/rule/ruleSetting');
+  }
 };
 
 const handleSave = async (isSubmit: boolean = false) => {
@@ -108,7 +118,12 @@ try {
   setTimeout(() => {
     setLoading(false);
     message.success(isSubmit ? '提交审核成功' : '保存草稿成功');
-    navigate('/rule-settings');
+    // If in embedded mode, call onClose; otherwise navigate
+    if (embedded && onClose) {
+      onClose();
+    } else {
+      navigate('/rule/ruleSetting');
+    }
   }, 800);
 } catch (error) {
   console.error('Validation failed:', error);
@@ -795,3 +810,5 @@ return (
 );
 };
 export default RuleCreate;
+
+

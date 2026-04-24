@@ -41,7 +41,7 @@ export default [
       },
       {
         // 规则设置
-        path: '/rule-settings',
+        path: '/rule/ruleSetting',
         name: 'ruleSettings',
         component: './rule/settings',
       },
@@ -86,6 +86,12 @@ export default [
         path: '/account-group',
         name: 'accountGroup',
         component: './account-group',
+      },
+      {
+        // 账户系统接口示例
+        path: '/example/account-system',
+        name: 'accountSystemExample',
+        component: './example/account-system',
       },
       {
         // 安全组管理

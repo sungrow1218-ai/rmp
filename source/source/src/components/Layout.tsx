@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout as AntLayout, Menu, Dropdown, Avatar, Select, Spin, message } from 'antd';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { AppstoreFilled, BellOutlined, UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
-import { useMenuFunc } from '@/hooks';
+import { useMenuFunc, useWorkGroup } from '@/hooks';
 import { transformMenuData, getActiveTopMenu } from '../utils/menuUtils';
 import { logout } from '@/utils/utils';
 
@@ -13,21 +13,26 @@ export const Layout: React.FC = () => {
   const location = useLocation();
   const { flatMenuData } = useMenuFunc();
 
-  // 临时占位符 - 这些功能需要从独立的钩子获取
-  const loading = false;
-  const error = null;
-  const workGroupList = [
-    { workGroupId: 1, workGroupName: '默认工作台', sobId: 1 }
-  ];
-  const activeWorkGroup = workGroupList[0];
-  const setActiveWorkGroup = () => {};
+  // 工作台数据 Hook
+  const {
+    workGroupList,
+    activeWorkGroup,
+    loading: workGroupLoading,
+    error: workGroupError,
+    setActiveWorkGroup,
+  } = useWorkGroup();
+
+  // 用户角色相关状态（暂时保持虚拟数据，后续可根据需要替换）
   const userRoles = {
     activeRoleId: 1,
     availableRoles: [
       { roleId: 1, roleName: '默认角色' }
     ]
   };
-  const setActiveRole = () => {};
+  const setActiveRole = (roleId: number) => {
+    // 暂时为空，后续可集成真实角色切换逻辑
+    console.log('切换角色:', roleId);
+  };
   // const hasPermission = (path: string) => true; // Removed unused variable
 
   // 根据当前路径和菜单数据判断激活的一级菜单
@@ -137,7 +142,7 @@ export const Layout: React.FC = () => {
 
   // 处理工作台切换
   const handleWorkGroupChange = (value: string) => {
-    const selectedGroup = workGroupList.find(group => group.workGroupId.toString() === value);
+    const selectedGroup = workGroupList.find((group: import('@/hooks/useWorkGroup').WorkGroupInfo) => group.workGroupId.toString() === value);
     if (selectedGroup) {
       setActiveWorkGroup(selectedGroup);
     }
@@ -148,21 +153,21 @@ export const Layout: React.FC = () => {
     setActiveRole(roleId);
   };
 
-  // 如果正在加载，显示加载状态
-  if (loading) {
+  // 如果正在加载工作台数据，显示加载状态
+  if (workGroupLoading) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-[#f0f2f5]">
-        <Spin size="large" tip="加载菜单数据中..." />
+        <Spin size="large" tip="加载工作台数据中..." />
       </div>
     );
   }
 
-  // 如果有错误，显示错误信息
-  if (error) {
+  // 如果工作台数据获取有错误，显示错误信息
+  if (workGroupError) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-[#f0f2f5]">
         <div className="text-center">
-          <div className="text-red-500 text-lg mb-2">{error}</div>
+          <div className="text-red-500 text-lg mb-2">{workGroupError}</div>
           <div className="text-gray-600">请检查网络连接或联系管理员</div>
         </div>
       </div>
@@ -228,7 +233,7 @@ export const Layout: React.FC = () => {
               variant="borderless"
               popupMatchSelectWidth={false}
               dropdownStyle={{ minWidth: 220, borderRadius: 8, padding: 4 }}
-              options={workGroupList.map(group => ({
+              options={workGroupList.map((group: import('@/hooks/useWorkGroup').WorkGroupInfo) => ({
                 value: group.workGroupId.toString(),
                 label: group.workGroupName,
               }))}
@@ -258,3 +263,10 @@ export const Layout: React.FC = () => {
   );
 };
 export default Layout;
+
+
+
+
+
+
+

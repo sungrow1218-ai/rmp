@@ -88,7 +88,7 @@ export const MenuConfig = {
       menuId: 1,
       menuName: '规则管理',
       parentMenuId: -1,
-      menuUrl: '/rule-settings',
+      menuUrl: '/rule/ruleSetting',
       functionList: [
         { functionId: 1, functionName: '新增规则', functionDescrip: '创建新规则' },
         { functionId: 2, functionName: '编辑规则', functionDescrip: '修改现有规则' },
@@ -99,7 +99,7 @@ export const MenuConfig = {
       menuId: 2,
       menuName: '规则设置',
       parentMenuId: 1,
-      menuUrl: '/rule-settings',
+      menuUrl: '/rule/ruleSetting',
       functionList: [
         { functionId: 1, functionName: '新增规则', functionDescrip: '创建新规则' },
         { functionId: 2, functionName: '编辑规则', functionDescrip: '修改现有规则' },

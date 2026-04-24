@@ -2,7 +2,9 @@
 // 根据RMP系统接口规范实现，参考rmp_ui_test项目
 
 // 导入 request.ts 中的 extendOptions 和 globalConfig
-import { extendOptions, globalConfig } from '@/utils/request';
+import { extendOptions, globalConfig } from '../utils/request';
+// 导入规则模板类型
+import type { RuleTemplateIDTO } from './ruleTemplateTypes';
 
 // 全局配置 - 现在使用 request.ts 中的配置
 
@@ -109,6 +111,25 @@ enum CustomCode {
   TOKEN_EXPIRED = 90005,
 }
 
+// 修改类型枚举
+export enum ModifyTypeEnum {
+  ADD = 1,     // 新增
+  EDIT = 2,    // 编辑
+  DELETE = 3,  // 删除
+  VIEW = 4,    // 查看
+}
+
+// 修改账户组参数类型
+export interface ModifyAccountGroupParams {
+  modifyType: ModifyTypeEnum;       // 修改类型
+  accountGroupId?: number;          // 账户组ID（编辑时必填）
+  accountGroupName: string;         // 账户组名称
+  bookType: string;                 // 账户类型编码
+  bookLevel: string;                // 账户层级编码
+  workGroupId: number;              // 工作台ID
+  remark?: string;                  // 备注
+}
+
 // 简单的fetch请求封装，参考rmp_ui_test的配置
 const API_BASE_URL = '/rmp';
 const API_TIMEOUT = 180000; // 3分钟，与rmp_ui_test一致
@@ -134,93 +155,160 @@ const requestInterceptor = (config: any) => {
 
 // 响应拦截器
 const responseInterceptor = async (response: Response) => {
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  let data: any = {};
-  const contentType = response.headers.get('Content-Type');
-  if (contentType && contentType.includes('application/json')) {
-    try {
-      data = await response.json();
-    } catch (e) {
-      console.warn('解析响应JSON失败:', e);
-    }
-  } else {
-    const text = await response.text();
-    console.warn('收到非JSON响应:', text);
-    throw new Error(`服务器返回非JSON格式数据: ${text.substring(0, 100)}`);
-  }
-
-  console.log('🔍 [responseInterceptor] 原始响应数据:', data);
-  console.log('🔍 [responseInterceptor] 响应URL:', response.url);
-  console.log('🔍 [responseInterceptor] 响应状态:', response.status, response.statusText);
-
-  // 检查是否是aegis接口
-  const isAegis = response.url.includes('/rmp/aegis/api');
-  console.log('🔍 [responseInterceptor] 是否是aegis接口:', isAegis);
-
-  if (isAegis) {
-    // aegis接口使用errorId和errorMessage
-    console.log('🔍 [responseInterceptor] aegis接口数据:', {
-      errorId: data.errorId,
-      errorMessage: data.errorMessage,
-      hasData: !!data.data,
-      data: data.data
-    });
-
-    if (data.errorId === undefined) {
-      console.warn('接口返回数据格式异常 (无errorId):', data);
+  try {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    if (data.errorId !== undefined && data.errorId !== 0 && data.errorId !== 145003) {
-      throw new Error(data.errorMessage || '请求失败');
+    let data: any = {};
+    const contentType = response.headers.get('Content-Type');
+    if (contentType && contentType.includes('application/json')) {
+      try {
+        data = await response.json();
+      } catch (e) {
+        console.warn('解析响应JSON失败:', e);
+        // 即使解析失败，也返回一个结构化的错误响应
+        return {
+          code: -1,
+          errorId: -1,
+          message: '解析响应数据失败',
+          errorMessage: '解析响应数据失败',
+          data: null,
+        };
+      }
+    } else {
+      const text = await response.text();
+      console.warn('收到非JSON响应:', text);
+      // 对于非JSON响应，返回一个结构化的错误
+      return {
+        code: -1,
+        errorId: -1,
+        message: `服务器返回非JSON格式数据: ${text.substring(0, 100)}`,
+        errorMessage: `服务器返回非JSON格式数据: ${text.substring(0, 100)}`,
+        data: null,
+      };
     }
 
-    // token过期处理
-    if (data.errorId === CustomCode.TOKEN_EXPIRED) {
-      // 跳转到登录页
-      window.location.href = '/login';
-      throw new Error('登录已过期，请重新登录');
-    }
+    console.log('🔍 [responseInterceptor] 原始响应数据:', data);
+    console.log('🔍 [responseInterceptor] 响应URL:', response.url);
+    console.log('🔍 [responseInterceptor] 响应状态:', response.status, response.statusText);
 
+    // 检查是否是aegis接口
+    const isAegis = response.url.includes('/rmp/aegis/api');
+    console.log('🔍 [responseInterceptor] 是否是aegis接口:', isAegis);
+
+    if (isAegis) {
+      // aegis接口使用errorId和errorMessage
+      console.log('🔍 [responseInterceptor] aegis接口数据:', {
+        errorId: data.errorId,
+        errorMessage: data.errorMessage,
+        hasData: !!data.data,
+        data: data.data
+      });
+
+      if (data.errorId === undefined) {
+        console.warn('接口返回数据格式异常 (无errorId):', data);
+        // 对于格式异常的数据，返回一个结构化的响应
+        return {
+          code: -1,
+          errorId: -1,
+          message: '接口返回数据格式异常',
+          errorMessage: '接口返回数据格式异常',
+          data: data,
+        };
+      }
+
+      if (data.errorId !== undefined && data.errorId !== 0 && data.errorId !== 145003) {
+        // 返回错误信息，但不抛出异常，让调用者处理
+        return {
+          code: data.errorId,
+          errorId: data.errorId,
+          message: data.errorMessage || '请求失败',
+          errorMessage: data.errorMessage || '请求失败',
+          data: data.data,
+        };
+      }
+
+      // token过期处理
+      if (data.errorId === CustomCode.TOKEN_EXPIRED) {
+        // 跳转到登录页
+        window.location.href = '/login';
+        return {
+          code: data.errorId,
+          errorId: data.errorId,
+          message: '登录已过期，请重新登录',
+          errorMessage: '登录已过期，请重新登录',
+          data: null,
+        };
+      }
+
+      return {
+        code: data.errorId,
+        errorId: data.errorId,
+        message: data.errorMessage,
+        errorMessage: data.errorMessage,
+        data: data.data,
+      };
+    } else {
+      // 普通接口使用code和message
+      console.log('🔍 [responseInterceptor] 普通接口数据:', {
+        code: data.code,
+        message: data.message,
+        hasData: !!data.data,
+        data: data.data
+      });
+
+      if (data.code === undefined) {
+        console.warn('接口返回数据格式异常 (无code):', data);
+        return {
+          code: -1,
+          errorId: -1,
+          message: '接口返回数据格式异常',
+          errorMessage: '接口返回数据格式异常',
+          data: data,
+        };
+      }
+
+      if (data.code !== undefined && data.code !== 0 && data.code !== 145003) {
+        return {
+          code: data.code,
+          errorId: data.code,
+          message: data.message || '请求失败',
+          errorMessage: data.message || '请求失败',
+          data: data.data,
+        };
+      }
+
+      // token过期处理
+      if (data.code === CustomCode.TOKEN_EXPIRED) {
+        // 跳转到登录页
+        window.location.href = '/login';
+        return {
+          code: data.code,
+          errorId: data.code,
+          message: '登录已过期，请重新登录',
+          errorMessage: '登录已过期，请重新登录',
+          data: null,
+        };
+      }
+
+      return {
+        code: data.code,
+        errorId: data.code,
+        message: data.message,
+        errorMessage: data.message,
+        data: data.data,
+      };
+    }
+  } catch (error: any) {
+    console.error('响应拦截器异常:', error);
+    // 返回一个结构化的错误响应，避免抛出未捕获的异常
     return {
-      code: data.errorId,
-      errorId: data.errorId,
-      message: data.errorMessage,
-      errorMessage: data.errorMessage,
-      data: data.data,
-    };
-  } else {
-    // 普通接口使用code和message
-    console.log('🔍 [responseInterceptor] 普通接口数据:', {
-      code: data.code,
-      message: data.message,
-      hasData: !!data.data,
-      data: data.data
-    });
-
-    if (data.code === undefined) {
-      console.warn('接口返回数据格式异常 (无code):', data);
-    }
-
-    if (data.code !== undefined && data.code !== 0 && data.code !== 145003) {
-      throw new Error(data.message || '请求失败');
-    }
-
-    // token过期处理
-    if (data.code === CustomCode.TOKEN_EXPIRED) {
-      // 跳转到登录页
-      window.location.href = '/login';
-      throw new Error('登录已过期，请重新登录');
-    }
-
-    return {
-      code: data.code,
-      errorId: data.code,
-      message: data.message,
-      errorMessage: data.message,
-      data: data.data,
+      code: -1,
+      errorId: -1,
+      message: error.message || '响应处理失败',
+      errorMessage: error.message || '响应处理失败',
+      data: null,
     };
   }
 };
@@ -262,6 +350,8 @@ const requestByPage = async <T = any>(
   data: any,
   options: RequestInit = {}
 ): Promise<CommonResponseIWrapper<{ resultList: T[] } & ResponseParameterPagination>> => {
+  console.log('🔍 [requestByPage] 请求URL:', url);
+  console.log('🔍 [requestByPage] 请求数据:', JSON.stringify(data, null, 2));
   return request(url, {
     method: 'POST',
     body: JSON.stringify(data),
@@ -332,7 +422,7 @@ export const queryWorkGroup = async (
     filterCondition: params?.filterCondition
       ? {
           workGroupId: params?.filterCondition?.workGroupId,
-          sobId: params?.filterCondition?.sobCondition?.sobId,
+          sobId: params?.filterCondition?.sobId,
         }
       : undefined,
   });
@@ -388,10 +478,10 @@ export const queryMenuConfig = async (
   params: RequestParameterPagination & {
     filterCondition?: {
       menuId?: number;
-    };
+    }[];
   }
 ): Promise<CommonResponseIWrapper<any>> => {
-  return requestByPage('/ops/queryMenuConfiguration', params);
+  return requestByPage('/aegis/api/ops/queryMenuConfiguration', params);
 };
 
 // 用户菜单个性化配置查询API
@@ -403,7 +493,7 @@ export const queryUserMenuConfiguration = async (
     };
   }
 ): Promise<CommonResponseWrapper<any>> => {
-  return requestByPage('/ops/queryUserMenuConfiguration', params);
+  return requestByPage('/aegis/api/ops/queryUserMenuConfiguration', params);
 };
 
 // 修改用户菜单个性化配置API
@@ -413,6 +503,251 @@ export const alterUserMenuConfiguration = async (params: {
   configuration: string;
 }): Promise<CommonResponseIWrapper<any>> => {
   return request('/ops/modifyUserMenuConfiguration', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// ==================== 规则模板组相关类型 ====================
+
+// 规则模板组状态枚举
+export enum RuleTemplateGroupStatus {
+  DISABLE = 0,  // 停用
+  ENABLE = 1,   // 启用
+}
+
+
+// 规则模板组接口类型
+export interface RuleTemplateGroupIDTO {
+  ruleTmplGroupId: number;
+  ruleTmplGroupName: string;
+  description?: string;
+  workGroupId: number;
+  status: number;
+  ruleTemplateList: { ruleTemplateId: number; ruleType: string }[];
+  createRoleId: number;
+  createUserCode: string;
+  updateUserCode: string;
+  createTime: string;
+  lastUpdateTime: string;
+}
+
+// 规则模板组查询参数
+export interface QueryRuleTemplateGroupParams extends RequestParameterPagination {
+  authorityFlag?: number;
+  filterCondition?: {
+    workGroupId?: number;
+    ruleTmplGroupId?: number;
+    ruleTmplGroupName?: string;
+    status?: number;
+    createUserCode?: string;
+  }[];
+}
+
+// 修改规则模板组参数
+export interface ModifyRuleTemplateGroupParams {
+  modifyType: ModifyTypeEnum;
+  ruleTmplGroupId: number;
+  ruleTmplGroupName: string;
+  description?: string;
+  workGroupId: number;
+  status: number;
+  modRuleTmplList?: Array<{
+    ruleTemplateId: number;
+    ruleType: string;
+  }>;
+  delRuleTmplList?: Array<{
+    ruleTemplateId: number;
+  }>;
+}
+
+// ==================== 账户组管理相关API ====================
+
+// 账户组关联规则模板参数
+export interface AccountGroupRelationParams {
+  pageId?: number;
+  pageSize?: number;
+  authorityFlag?: number;
+  filterCondition?: {
+    workGroupId?: number;
+    ruleTmplGroupId?: number[];
+    accountGroupId?: number[];
+    accountGroupName?: string;
+    accountType?: { sobId: number; bookType: number; bookLevel: number };
+    status?: number[];
+    dataTime?: string;
+  };
+}
+
+export interface AccountGroupRelationResultList {
+  ruleTmplGroupId: number;
+  ruleTmplGroupName: string;
+  accountGroupId: number;
+  accountGroupName: string;
+  controlMode: number;
+  status: number;
+  remark: string;
+  createRoleId: number;
+  createUserCode: string;
+  updateUserCode: string;
+  createTime: string;
+  lastUpdateTime: string;
+}
+
+export interface AccountGroupRelation {
+  resultList: AccountGroupRelationResultList[];
+  pageId: number;
+  pageSize: number;
+  totalSize: number;
+}
+
+// 查询账户组列表
+export const queryAccountGroup = async (
+  params: any
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/queryAccountGroup', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 查询账户组明细列表
+export const queryAccountGroupDetail = async (
+  params: any
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/queryAccountGroupDetail', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 添加/编辑账户组
+export const alterAccountGroup = async (
+  params: ModifyAccountGroupParams
+): Promise<CommonResponseIWrapper<any>> => {
+  console.log('调用 alterAccountGroup，参数:', params);
+  return request('/aegis/api/ruleManager/modifyAccountGroup', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 查询引用的规则列表
+export const queryReferenceByRiskRule = async (
+  params: { accountGroupId: number }
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/queryReferenceByRiskRule', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 导出账户明细
+export const exportAccountGroupDetail = async (
+  params: { acctGroupId: number }
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/exportAccountGroupDetail', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 设置账户组明细
+export const alterAccountGroupDetail = async (
+  params: any
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/modifyAccountGroupDetail', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 查询账户组关联规则模板
+export const queryAccountGroupRelation = async (
+  params: AccountGroupRelationParams
+): Promise<CommonResponseIWrapper<AccountGroupRelation>> => {
+  return request('/aegis/api/ruleManager/queryRuleTemplateGroupAccountGroupRelation', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 设置账户组和模板绑定关系
+export const modifyAccountGroupRelation = async (
+  params: any
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/modifyRuleTemplateGroupAccountGroupRelation', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// ==================== 规则模板组相关API ====================
+
+// 查询规则模板默认配置
+export const queryRuleTemplateDefaultConfiguration = async (
+  ruleType: string[]
+): Promise<CommonResponseIWrapper<{
+  resultList: { configuration: string; ruleType: string }[];
+}>> => {
+  return request('/aegis/api/ruleManager/queryRuleTemplateDefaultConfiguration', {
+    method: 'POST',
+    body: JSON.stringify({ ruleType }),
+  });
+};
+
+// 查询规则模板
+export const queryRuleTemplate = async (
+  params: {
+    pageId?: number;
+    pageSize?: number;
+    authorityFlag?: number;
+    filterCondition?: {
+      ruleTmplGroupId?: number;
+      ruleType?: string[];
+      ruleTemplateId?: number[];
+    }[];
+  }
+): Promise<CommonResponseIWrapper<{
+  resultList: RuleTemplateIDTO[];
+} & ResponseParameterPagination>> => {
+  return request('/aegis/api/ruleManager/queryRuleTemplate', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 查询规则模板组列表
+export const queryRuleTemplateGroup = async (
+  params: QueryRuleTemplateGroupParams
+): Promise<CommonResponseIWrapper<{ resultList: RuleTemplateGroupIDTO[] } & ResponseParameterPagination>> => {
+  return request('/aegis/api/ruleManager/queryRuleTemplateGroup', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 修改规则模板组
+export const modifyRuleTemplateGroup = async (
+  params: ModifyRuleTemplateGroupParams
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/modifyRuleTemplateGroup', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  });
+};
+
+// 修改规则模板
+export const modifyRuleTemplate = async (
+  params: RequestParameterPaginationIDTO & {
+    filterCondition: {
+      ruleTmplGroupId: number;
+      ruleType: string[];
+      ruleTemplateId: number[];
+    };
+  }
+): Promise<CommonResponseIWrapper<any>> => {
+  return request('/aegis/api/ruleManager/modifyRuleTemplate', {
     method: 'POST',
     body: JSON.stringify(params),
   });
@@ -438,6 +773,25 @@ export const api = {
 
   // 工作台相关
   queryWorkGroup,
+
+  // 账户组相关
+  queryAccountGroup,
+  queryAccountGroupDetail,
+  alterAccountGroup,
+  queryReferenceByRiskRule,
+  exportAccountGroupDetail,
+  alterAccountGroupDetail,
+  queryAccountGroupRelation,
+  modifyAccountGroupRelation,
+
+  // 规则模板组相关
+  queryRuleTemplateGroup,
+  modifyRuleTemplateGroup,
+  queryRuleTemplateDefaultConfiguration,
+  queryRuleTemplate,
+  modifyRuleTemplate,
 };
 
 export default api;
+
+

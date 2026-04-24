@@ -3,6 +3,11 @@ import { Form, Input, Switch, Button, Typography, Tree, InputNumber, Space, mess
 import { ArrowLeftOutlined, SaveOutlined, CheckCircleOutlined, InfoCircleOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 
+interface RuleEditProps {
+  embedded?: boolean;
+  onClose?: () => void;
+}
+
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -74,7 +79,7 @@ const dynamicDimensionGroups = [
 { value: 'dim_core_assets', label: '核心资产组' },
 ];
 
-export const RuleEdit: React.FC = () => {
+export const RuleEdit: React.FC<RuleEditProps> = ({ embedded = false, onClose }) => {
 const navigate = useNavigate();
 const { id } = useParams();
 const [form] = Form.useForm();
@@ -194,27 +199,37 @@ setTimeout(() => {
 }, [form, id]);
 
 const handleBack = () => {
-navigate('/rule-settings');
+  // If in embedded mode, call onClose; otherwise navigate
+  if (embedded && onClose) {
+    onClose();
+  } else {
+    navigate('/rule/ruleSetting');
+  }
 };
 
 const handleSave = async (isSubmit: boolean = false) => {
-try {
-  await form.validateFields();
-  if (checkedKeys.length === 0) {
-    message.warning('请至少勾选一个规则类型进行配置');
-    return;
-  }
+  try {
+    await form.validateFields();
+    if (checkedKeys.length === 0) {
+      message.warning('请至少勾选一个规则类型进行配置');
+      return;
+    }
 
-  setLoading(true);
-  setTimeout(() => {
-    setLoading(false);
-    message.success(isSubmit ? '提交审核成功' : '保存修改成功');
-    navigate('/rule-settings');
-  }, 800);
-} catch (error) {
-  console.error('Validation failed:', error);
-  message.error('请检查必填项是否已填写完整');
-}
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      message.success(isSubmit ? '提交审核成功' : '保存修改成功');
+      // If in embedded mode, call onClose; otherwise navigate
+      if (embedded && onClose) {
+        onClose();
+      } else {
+        navigate('/rule/ruleSetting');
+      }
+    }, 800);
+  } catch (error) {
+    console.error('Validation failed:', error);
+    message.error('请检查必填项是否已填写完整');
+  }
 };
 
 const onSelect = (selectedKeysValue: React.Key[], info: any) => {
@@ -897,3 +912,5 @@ return (
 );
 };
 export default RuleEdit;
+
+

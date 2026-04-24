@@ -6,7 +6,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-export const SingleRuleEdit: React.FC = () => {
+interface SingleRuleEditProps {
+  embedded?: boolean;
+  onClose?: () => void;
+}
+
+export const SingleRuleEdit: React.FC<SingleRuleEditProps> = ({ embedded = false, onClose }) => {
 const navigate = useNavigate();
 const { id } = useParams();
 const [form] = Form.useForm();
@@ -42,22 +47,32 @@ setTimeout(() => {
 }, [form, id]);
 
 const handleBack = () => {
-navigate('/rule-settings');
+  // If in embedded mode, call onClose; otherwise navigate
+  if (embedded && onClose) {
+    onClose();
+  } else {
+    navigate('/rule/ruleSetting');
+  }
 };
 
 const handleSave = async (isSubmit: boolean = false) => {
-try {
-  await form.validateFields();
-  setLoading(true);
-  setTimeout(() => {
-    setLoading(false);
-    message.success(isSubmit ? '提交审核成功' : '保存修改成功');
-    navigate('/rule-settings');
-  }, 800);
-} catch (error) {
-  console.error('Validation failed:', error);
-  message.error('请检查必填项是否已填写完整');
-}
+  try {
+    await form.validateFields();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      message.success(isSubmit ? '提交审核成功' : '保存修改成功');
+      // If in embedded mode, call onClose; otherwise navigate
+      if (embedded && onClose) {
+        onClose();
+      } else {
+        navigate('/rule/ruleSetting');
+      }
+    }, 800);
+  } catch (error) {
+    console.error('Validation failed:', error);
+    message.error('请检查必填项是否已填写完整');
+  }
 };
 
 if (dataLoading) {
@@ -309,3 +324,5 @@ return (
 );
 };
 export default SingleRuleEdit;
+
+

@@ -29,6 +29,10 @@ export default defineConfig(({ mode, command }) => {
   const opts: UserConfig = {
     base: "/",
     css: {
+      modules: {
+        localsConvention: "camelCase",
+        generateScopedName: "[name]__[local]___[hash:base64:5]",
+      },
       preprocessorOptions: {
         less: {
           // @ht/sprite-ui needs this

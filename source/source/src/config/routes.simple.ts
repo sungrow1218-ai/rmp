@@ -78,7 +78,7 @@ const routes: RouteItem[] = [
     },
   },
   {
-    path: '/rule-settings',
+    path: '/rule/ruleSetting',
     name: 'ruleSettings',
     component: './pages/rule/RuleSettings',
     wrappers: ['@/wrappers/LoginStatusCheckPoint'],

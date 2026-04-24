@@ -12,7 +12,14 @@ const businessLines = [
 { id: 'qfii', name: 'QFII业务', icon: <GlobalOutlined />, desc: '适用于合格境外机构投资者的交易行为监控' },
 ];
 
-export const SingleRuleCreate: React.FC = () => {
+interface SingleRuleCreateProps {
+  /** 是否为内嵌模式（从规则设置页面内嵌显示） */
+  embedded?: boolean;
+  /** 内嵌模式下的关闭回调 */
+  onClose?: () => void;
+}
+
+export const SingleRuleCreate: React.FC<SingleRuleCreateProps> = ({ embedded = false, onClose }) => {
 const navigate = useNavigate();
 const [form] = Form.useForm();
 const [loading, setLoading] = useState(false);
@@ -25,26 +32,36 @@ const [selectedLine, setSelectedLine] = useState<string | null>(null);
 const accountControlType = Form.useWatch('accountControlType', form);
 
 const handleBack = () => {
-if (step === 1) {
-  setStep(0);
-} else {
-  navigate('/rule-settings');
-}
+  if (step === 1) {
+    setStep(0);
+  } else {
+    // 如果为内嵌模式，调用 onClose；否则导航
+    if (embedded && onClose) {
+      onClose();
+    } else {
+      navigate('/rule/ruleSetting');
+    }
+  }
 };
 
 const handleSave = async (isSubmit: boolean = false) => {
-try {
-  await form.validateFields();
-  setLoading(true);
-  setTimeout(() => {
-    setLoading(false);
-    message.success(isSubmit ? '提交审核成功' : '保存草稿成功');
-    navigate('/rule-settings');
-  }, 800);
-} catch (error) {
-  console.error('Validation failed:', error);
-  message.error('请检查必填项是否已填写完整');
-}
+  try {
+    await form.validateFields();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      message.success(isSubmit ? '提交审核成功' : '保存草稿成功');
+      // 保存成功后，内嵌模式调用 onClose，否则导航
+      if (embedded && onClose) {
+        onClose();
+      } else {
+        navigate('/rule/ruleSetting');
+      }
+    }, 800);
+  } catch (error) {
+    console.error('Validation failed:', error);
+    message.error('请检查必填项是否已填写完整');
+  }
 };
 
 const currentBusinessLineName = businessLines.find(b => b.id === selectedLine)?.name;
@@ -61,7 +78,7 @@ return (
     </div>
     {step === 1 && (
       <Space>
-        <Button onClick={() => navigate('/rule-settings')}>取消</Button>
+        <Button onClick={() => embedded && onClose ? onClose() : navigate('/rule/ruleSetting')}>取消</Button>
         <Button icon={<SaveOutlined />} onClick={() => handleSave(false)} loading={loading}>保存草稿</Button>
         <Button type="primary" className="bg-[#1890ff] hover:!bg-[#096dd9] border-none" icon={<CheckCircleOutlined />} onClick={() => handleSave(true)} loading={loading}>提交审核</Button>
       </Space>
@@ -361,3 +378,6 @@ return (
 );
 };
 export default SingleRuleCreate;
+
+
+

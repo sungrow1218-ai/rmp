@@ -7,18 +7,18 @@ import TabsLayout from '../components/Layout';
 // Pages - lazy load
 const Login = lazy(() => import('../pages/login/Login'));
 const Welcome = lazy(() => import('../pages/welcome/Welcome'));
-const RuleSetting = lazy(() => import('../pages/rule/RuleSettings'));
-const DynamicDimension = lazy(() => import('../pages/rule/DynamicDimension'));
-const SecurityPool = lazy(() => import('../pages/rule/SecurityPool'));
-const SeatGroup = lazy(() => import('../pages/rule/SeatGroup'));
-const AccountGroup = lazy(() => import('../pages/rule/AccountGroup'));
+const RuleSetting = lazy(() => import('../pages/ruleSetting/RuleSettings'));
+const DynamicDimension = lazy(() => import('../pages/dynamicDimension/DynamicDimension'));
+const SecurityPool = lazy(() => import('../pages/securityPool/index'));
+const SeatGroup = lazy(() => import('../pages/seatGroup/SeatGroup'));
+const AccountGroup = lazy(() => import('../pages/accountGroup/index'));
 const RuleApproveExempt = lazy(() => import('../pages/affairs/RuleApproveExempt'));
 const RoleManage = lazy(() => import('../pages/authority/RoleManage'));
 const UserManage = lazy(() => import('../pages/authority/UserManage'));
-const ProcessManage = lazy(() => import('../pages/affairs/ProcessManage'));
-const RiskControlAlarm = lazy(() => import('../pages/operations/RiskControlAlarm'));
-const FutureOptionLimit = lazy(() => import('../pages/rule/FutureOptionLimit'));
-const GeneralLimit = lazy(() => import('../pages/rule/GeneralLimit'));
+const ProcessManage = lazy(() => import('../pages/affairs/index'));
+const RiskControlAlarm = lazy(() => import('../pages/operations/index'));
+const FutureOptionLimit = lazy(() => import('../pages/futureOptionLimit/FutureOptionLimit'));
+const GeneralLimit = lazy(() => import('../pages/generalLimit/GeneralLimit'));
 const EntrustInquiry = lazy(() => import('../pages/inquiry/EntrustInquiry'));
 const PendingEntrust = lazy(() => import('../pages/inquiry/PendingEntrust'));
 const Position = lazy(() => import('../pages/inquiry/Position'));
@@ -37,6 +37,7 @@ const RuleView = lazy(() => import('../pages/rule/RuleView'));
 const SingleRuleCreate = lazy(() => import('../pages/rule/SingleRuleCreate'));
 const SingleRuleEdit = lazy(() => import('../pages/rule/SingleRuleEdit'));
 const SingleRuleView = lazy(() => import('../pages/rule/SingleRuleView'));
+const TestApi = lazy(() => import('../pages/test/TestApi'));
 const NotFound = lazy(() => import('../pages/exception/404'));
 const Forbidden = lazy(() => import('../pages/exception/403'));
 
@@ -168,6 +169,10 @@ export const routes: RouteObject[] = [
                     element: <OfferAccessManage />,
                   },
                   {
+                    path: 'test/api',
+                    element: <TestApi />,
+                  },
+                  {
                     path: 'info/stocks',
                     element: <Stocks />,
                   },
@@ -244,3 +249,5 @@ export const routes: RouteObject[] = [
 const router = createHashRouter(routes);
 
 export default router;
+
+
