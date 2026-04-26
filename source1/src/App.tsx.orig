@@ -1,0 +1,53 @@
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/locale/zh_CN';
+import { Layout } from './components/Layout';
+import { ReportView } from './pages/ReportView';
+import { QuotaManagement } from './pages/QuotaManagement';
+import { ProcessManagement } from './pages/ProcessManagement';
+import { RuleSettings } from './pages/RuleSettings';
+import { RuleCreate } from './pages/RuleCreate';
+import { SingleRuleCreate } from './pages/SingleRuleCreate';
+import { DataProvider } from './store/DataContext';
+
+export default function App() {
+  return (
+    <ConfigProvider 
+      locale={zhCN}
+      theme={{
+        token: {
+          colorPrimary: '#1890ff', // 调整为更专业的蓝色主题
+          colorInfo: '#1890ff',
+          borderRadius: 4,
+        },
+        components: {
+          Table: {
+            headerBg: '#fafafa',
+            headerColor: '#333',
+          },
+          Tabs: {
+            itemColor: '#666',
+            itemSelectedColor: '#1890ff',
+            inkBarColor: '#1890ff',
+          }
+        }
+      }}
+    >
+      <DataProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<ReportView />} />
+              <Route path="quota-manage" element={<QuotaManagement />} />
+              <Route path="process" element={<ProcessManagement />} />
+              <Route path="rule-settings" element={<RuleSettings />} />
+              <Route path="rule-create" element={<RuleCreate />} />
+              <Route path="single-rule-create" element={<SingleRuleCreate />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </DataProvider>
+    </ConfigProvider>
+  );
+}

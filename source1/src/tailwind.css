@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 顶部菜单样式优化 */
+.custom-top-menu.ant-menu-dark .ant-menu-item {
+color: #a6adb4 !important;
+padding: 0 20px !important;
+margin: 0 4px !important;
+border-radius: 4px !important;
+height: 40px !important;
+line-height: 40px !important;
+margin-top: 8px !important;
+}
+
+.custom-top-menu.ant-menu-dark .ant-menu-item:hover {
+color: #ffffff !important;
+background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.custom-top-menu.ant-menu-dark .ant-menu-item-selected {
+color: #ffffff !important;
+background-color: #1890ff !important;
+font-weight: 600 !important;
+}
+
+/* 侧边栏菜单样式优化 */
+.custom-side-menu .ant-menu-item {
+margin: 4px 12px !important;
+width: calc(100% - 24px) !important;
+border-radius: 4px !important;
+color: #4b5563 !important;
+}
+
+.custom-side-menu .ant-menu-item-selected {
+background-color: #e6f7ff !important;
+color: #1890ff !important;
+font-weight: 600 !important;
+}
+
+/* 空间选择器极简样式优化 */
+.custom-space-select .ant-select-selector {
+padding: 6px 12px !important;
+height: auto !important;
+background-color: #f9fafb !important; /* 默认显示浅灰背景 */
+border-radius: 6px !important;
+transition: all 0.2s ease !important;
+}
+.custom-space-select .ant-select-selection-item {
+font-weight: 600 !important;
+color: #1f2937 !important;
+font-size: 14px !important;
+line-height: 1.5 !important;
+}
+.custom-space-select.ant-select-focused .ant-select-selector,
+.custom-space-select.ant-select-open .ant-select-selector {
+box-shadow: none !important;
+background-color: #f3f4f6 !important;
+}
+.custom-space-select:hover .ant-select-selector {
+background-color: #f3f4f6 !important; /* 悬停时稍微加深 */
+}
+.custom-space-select .ant-select-arrow {
+color: #9ca3af !important;
+right: 12px !important;
+}
+
+/* 表格全局样式优化 */
+.custom-table .ant-table-container {
+border-radius: 4px 4px 0 0 !important;
+}
+
+.custom-table .ant-table-thead > tr > th {
+background-color: #fafafa !important;
+color: #333 !important;
+font-weight: 600 !important;
+padding: 12px 8px !important;
+border-bottom: 1px solid #f0f0f0 !important;
+border-right: 1px solid #f0f0f0 !important;
+text-align: center !important;
+}
+
+.custom-table .ant-table-thead > tr > th::before {
+display: none !important;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+padding: 10px 8px !important;
+border-bottom: 1px solid #f0f0f0 !important;
+border-right: 1px solid #f0f0f0 !important;
+color: #666;
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+background-color: #fafafa !important;
+}
+
+/* 规则设置页面表格特殊样式 */
+.custom-rule-table .ant-table-thead > tr > th {
+background-color: #fafafa !important;
+color: #333 !important;
+font-weight: 600 !important;
+padding: 12px 16px !important;
+border-bottom: 1px solid #f0f0f0 !important;
+}
+
+.custom-rule-table .ant-table-thead > tr > th::before {
+display: none !important;
+}
+
+.custom-rule-table .ant-table-tbody > tr > td {
+padding: 12px 16px !important;
+border-bottom: 1px solid #f0f0f0 !important;
+color: #666;
+}
+
+/* 集群列背景色优化 */
+.col-parent { background-color: #f6ffed !important; }
+.col-hk { background-color: #f9f0ff !important; }
+.col-connect { background-color: #fff7e6 !important; }
+
+/* Tabs 样式优化 */
+.custom-tabs .ant-tabs-nav {
+margin-bottom: 0 !important;
+}
+.custom-tabs .ant-tabs-tab {
+padding: 8px 16px !important;
+font-size: 15px !important;
+}
